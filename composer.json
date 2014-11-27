@@ -1,0 +1,19 @@
+{
+    "name": "Anano 2",
+    "description": "Version 2 of the Anano framework, still optimized for performance but refactored for larger projects.",
+    "authors": [
+        {
+            "name": "Kris Lux",
+            "email": "email@amunium.dk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        },
+        "classmap": [
+            "app/controllers",
+            "app/models"
+        ]
+    }
+}
