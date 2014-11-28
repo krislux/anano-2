@@ -2,7 +2,7 @@
 
 namespace Anano;
 
-class Controller
+abstract class Controller
 {
     protected $filters;
     

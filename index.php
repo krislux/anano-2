@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Anano 2 - Amunium Nano Framework.
+ * Anano Framework
  *
  * @package Anano
  * @author  Kris Lux <email@amunium.dk>

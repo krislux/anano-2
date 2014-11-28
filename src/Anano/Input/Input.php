@@ -2,7 +2,7 @@
 
 namespace Anano\Input;
 
-class Input
+abstract class Input
 {
     public static function get($field, $default='')
     {
