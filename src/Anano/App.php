@@ -2,7 +2,7 @@
 
 namespace Anano;
 
-class App
+final class App
 {
     private static $config;
     private static $profile_start;
