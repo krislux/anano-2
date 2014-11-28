@@ -1,16 +1,18 @@
 <html>
     <head>
-	<title>Anano CMS</title>
-		
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Anano CMS</title>
+            
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        
-	<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
-		
-	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-	<script type="text/javascript" src="js/script.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            
+        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
+            
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="packages/tinymce/tinymce.min.js"></script>
+        <script src="packages/gldatepicker/glDatePicker.min.js"></script>
+        <script src="js/script.js"></script>
     </head>
 
     <body>
@@ -37,7 +39,7 @@
         </div>
         <div id="context-menu" style="display: none;">
             <div id="context-menu-header">
-                <h3>Context menu</h3>
+                <h3></h3>
             </div>
             <ul>
             </ul>
@@ -46,12 +48,12 @@
         <div id="content">
             <div id="content-header">
                 <div class="content-container">
-                    <h3>Content header</h3>
+                    <h3></h3>
                 </div>
             </div>
-            <div id="content-body">
-                <div class="content-container">
-                </div>
+            <div class="content-container">
+                <form id="content-body">
+                </form>
             </div>
         </div>
     </body>

@@ -38,7 +38,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input {
+time, mark, audio, video, input, button, textarea {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -85,6 +85,10 @@ body, html {
 h3 {
     font-size: 17px;
     color: #343434;
+}
+
+.clear {
+    clear: both;
 }
 
 /********************
@@ -183,21 +187,18 @@ h3 {
     display: inline-block;
 }
 
-#submenu ul > li > p {
-    width: 280px;
-}
+#submenu ul > li > p { width: 280px; }
+#submenu ul > ul > li > p { width: 270px; }
+#submenu ul > ul > ul > li > p { width: 260px; }
+#submenu ul > ul > ul > ul > li > p { width: 250px; }
+#submenu ul > ul > ul > ul > ul > li > p { width: 240px; }
+#submenu ul > ul > ul > ul > ul > ul > li > p { width: 230px; }
 
-#submenu ul > ul > li > p {
-    width: 270px;
-}
+#submenu ul > ul { margin-left: 10px; }
 
-#submenu > ul, #context-menu > ul, #content-body {
+#submenu > ul, #context-menu > ul, #content > .content-container {
     overflow-x: hidden;
     overflow-y: auto;
-}
-
-#submenu > ul > ul {
-    margin-left: 10px;
 }
 
 #submenu li, #context-menu li {
@@ -294,4 +295,69 @@ h3 {
 .content-container {
     position: absolute;
     left: 442px;
+    width: calc(100% - 442px);
+}
+
+#content > .content-container {
+    height: calc(100% - 100px);
+}
+
+#content-body {
+    padding: 20px;
+    width: calc(100% - 40px);
+}
+
+/* Properties */
+.content-property {
+    margin-bottom: 40px;
+    height: 30px;
+}
+
+.content-property.large {
+    height: 280px !important;
+}
+
+.content-property-name {
+    width: 20%;
+    height: 30px;
+    float: left;
+}
+
+.content-property-value {
+    width: 80%;
+    float: left;
+}
+
+.content-property-value > input {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px 10px;
+}
+
+.content-property-checkbox {
+    width: 30px !important;
+}
+
+.cke {
+    width: 100%;
+}
+
+/* Buttons */
+.content-button-submit {
+    background-color: #53A93F;
+    padding: 8px 32px;
+    border: 1px solid #487E2F;
+    border-radius: 3px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0px 0px 0px auto;
+    display: block;
+}
+
+.content-button-submit:active {
+    background: #487E2F;
 }

@@ -17,14 +17,14 @@
                 for ($i = 0; $i < 4; $i++){
                     $properties = array(
                         array(
-                            'name' => 'BodyText',
-                            'type' => 'text',
-                            'value' => 'This is some text',
-                        ),
-                        array(
                             'name' => 'Title',
                             'type' => 'varchar',
                             'value' => 'This is a title',
+                        ),
+                        array(
+                            'name' => 'BodyText',
+                            'type' => 'text',
+                            'value' => 'This is some text',
                         ),
                         array(
                             'name' => 'Count',
@@ -44,7 +44,12 @@
                         array(
                             'name' => 'CreationDateTime',
                             'type' => 'datetime',
-                            'value' => true,
+                            'value' => '2014-10-06',
+                        ),
+                        array(
+                            'name' => 'Option',
+                            'type' => 'enum',
+                            'value' => 'fisk',
                         ),
                     );
                     
@@ -56,6 +61,13 @@
                         'properties' => $properties,
                     );
 
+                    $item2 = $item;
+                    $item2['subitems'] = array (
+                        $item,
+                        $item,
+                        $item,
+                    );
+
                     $submenu[$i] = array(
                         'name' => 'Node',
                         'slug' => 'node',
@@ -64,7 +76,7 @@
                         'properties' => $properties,
                         'subitems' => array(
                             $item,
-                            $item
+                            $item2,
                         ),
                     );
                 }
