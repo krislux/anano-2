@@ -1,0 +1,297 @@
+/********************
+ * Fonts
+ ********************/
+@font-face {
+    font-family: 'Open Sans';
+    src:url('../fonts/opensans/OpenSans-Regular-webfont.eot');
+    src:local('Open Sans'), local('OpenSans'),
+        url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype'),
+        url('../fonts/opensans/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+font-family: 'Open Sans';
+    src:url('../fonts/opensans/OpenSans-Semibold-webfont.eot');
+    src:local('Open Sans Semibold'), local('OpenSans-Semibold'),
+        url('../fonts/opensans/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/opensans/OpenSans-Semibold-webfont.ttf') format('truetype'),
+        url('../fonts/opensans/OpenSans-Semibold-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/********************
+ * Resetter
+ ********************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/********************
+ * Global
+ ********************/
+body, html {
+    height: 100%;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+    overflow: hidden;
+}
+
+h3 {
+    font-size: 17px;
+    color: #343434;
+}
+
+/********************
+ * Input
+ ********************/
+.input-search {
+    border: 1px solid #D9D9D9;
+    height: 30px;
+    width: 316px;
+    background-color: #FFF;
+}
+
+.input-search i {
+    color: #D9D9D9;
+    line-height: 30px;
+    width: 30px;
+    text-align: center;
+}
+
+.input-search > input {
+    line-height: 30px;
+    height: 30px;
+    width: 281px;
+}
+
+/********************
+ * Menus
+ ********************/
+/* Main menu */
+#menu {
+    position: absolute;
+    background-color: #1D1D1D;
+    width: 80px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 100;
+}
+
+#menu-header {
+    width: 80px;
+    height: 100px;
+    border-bottom: 1px solid #343434;
+}
+
+#menu ul > li {
+    border-bottom: 1px solid #343434;
+    width: 80px;
+    height: 67px;
+    text-align: center;
+    color: #D9D9D9;
+    cursor: pointer;
+}
+
+#menu ul > li > i {
+    font-size: 24px;
+    position: relative;
+    top: 16px;
+}
+
+#menu ul > li > p {
+    font-size: 10px;
+    position: relative;
+    top: 24px;
+}
+
+#menu ul > li:hover {
+    background-color: #2F2F2F;
+}
+
+/* Submenu */
+#submenu {
+    position: absolute;
+    left: 80px;
+    width: 360px;
+    height: 100%;
+    border-right: 1px solid #D9D9D9;
+    z-index: 90;
+    background-color: #FFFFFF;
+}
+
+#submenu-header {
+    width: 100%;
+    height: 100px;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+#submenu-header > div {
+    position: relative;
+    top: 16px;
+    left: 20px;
+}
+
+#submenu li > p {
+    display: inline-block;
+}
+
+#submenu ul > li > p {
+    width: 280px;
+}
+
+#submenu ul > ul > li > p {
+    width: 270px;
+}
+
+#submenu > ul, #context-menu > ul, #content-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#submenu > ul > ul {
+    margin-left: 10px;
+}
+
+#submenu li, #context-menu li {
+    display: block;
+    line-height: 32px;
+    height: 32px;
+}
+
+#submenu li > i:not(.fa-ellipsis-h):not(.fa-caret-right):not(.fa-caret-down), #context-menu li > i {
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+#submenu li > .fa-caret-right, #submenu li > .fa-caret-down {
+    margin-left: 4px;
+    margin-right: -14px;
+    width: 10px;
+}
+
+#submenu li:hover, #context-menu li:not(.context-menu-category):hover {
+    background-color: #f6f6f6;
+    cursor: pointer;
+}
+
+.submenu-category, .context-menu-category {
+    text-transform: uppercase;
+    color: #B3B3B3;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 700;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.context-menu-category {
+    padding-bottom: 0px;
+}
+
+.submenu-context-button {
+    width: 30px;
+    text-align: center;
+    display: inline-block;
+    color: #d6d6d6;
+}
+
+.submenu-context-button:hover {
+    color: #000;
+}
+
+/* Context menu */
+#context-menu {
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid #D9D9D9;
+    -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.1);
+    box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.1);
+    position: absolute;
+    left: 172px;
+    z-index: 80;
+    background-color: #FFF;
+}
+
+#context-menu-header {
+    width: 100%;
+    height: 100px;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+#context-menu-header > h3, #content-header h3 {
+    position: relative;
+    top: 26px;
+    left: 20px;
+    text-transform: capitalize;
+}
+
+/********************
+ * Content
+ ********************/
+#content {
+    width: 100%;
+    height: 100%;
+    z-index: 70;
+}
+
+#content-header {
+    height: 100px;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.content-container {
+    position: absolute;
+    left: 442px;
+}
