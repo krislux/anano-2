@@ -87,6 +87,24 @@ h3 {
     color: #343434;
 }
 
+#loading {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 998; 
+}
+    
+#loading > img {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -8px;
+    margin-top: -5px;
+    z-index: 999;
+}
+
 .clear {
     clear: both;
 }
@@ -328,13 +346,20 @@ h3 {
     float: left;
 }
 
-.content-property-value > input {
+.content-property-value > input, .content-property-value > textarea {
     border: 1px solid #CCC;
     border-radius: 5px;
     width: 100%;
-    height: 30px;
     line-height: 30px;
     padding: 0px 10px;
+}
+
+.content-property-value > input {
+    height: 30px;
+}
+
+.content-property-value > textarea {
+    height: 280px;
 }
 
 .content-property-checkbox {

@@ -10,12 +10,16 @@
         <link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
             
         <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="packages/tinymce/tinymce.min.js"></script>
+        <script src="js/markdown.js"></script>
         <script src="packages/gldatepicker/glDatePicker.min.js"></script>
         <script src="js/script.js"></script>
     </head>
 
     <body>
+        <div id="loading" style="display:none;"><img src="./img/loading-anim.gif" /></div>
+
+        <div id="preview" style="position: fixed; top: 10px; left: 500px; width: 300px; height: 200px; z-index: 999; border: 1px solid red;"></div>
+
         <div id="menu">
             <div id="menu-header"></div>
             <ul>

@@ -12,6 +12,17 @@ function length (obj) {
 }
 
 /*********************
+ * Overlays
+ *********************/
+function setLoading(isLoading) {
+    if (isLoading) {
+        $('#loading').show();
+    } else {
+        $('#loading').hide();
+    }
+}
+
+/*********************
  * Navigation
  *********************/
 /* Nodes */
@@ -34,6 +45,8 @@ function toggleSubitems(item) {
 
 /* Submenu */
 function openSubmenu (name) {
+    setLoading(true);
+    
     $.ajax({
         url: 'menus.php?getSubmenu=' + name,
         cache: false,
@@ -53,6 +66,8 @@ function openSubmenu (name) {
                 alert ( "ERROR\n" + error );
             
             }
+            
+            setLoading(false);
         }
     });
 }
@@ -66,6 +81,8 @@ function closeContextMenu () {
 }
 
 function openContextMenu (nodeType) {
+    setLoading(true);
+    
     $.ajax({
         url: 'menus.php?getContextMenu=' + nodeType,
         cache: false,
@@ -82,6 +99,8 @@ function openContextMenu (nodeType) {
                 alert ( 'ERROR\n' + error + '\n' + json );
             
             }
+            
+            setLoading(false);
         }
     });
 }
@@ -166,6 +185,7 @@ function renderSubmenu(submenu, ulParent, name) {
 /* Content */
 function renderContent (properties) {
     var divContent = $('#content-body');
+    var editors = [];
     divContent.empty();
 
     for(var i in properties) {
@@ -174,7 +194,7 @@ function renderContent (properties) {
         var h3Name = $('<h3 class="content-property-name">' + prop.name + '</h3>');
         var divValue = $('<div class="content-property-value content-property-' + prop.type + '"></div>');
         var inputValue = null;
-
+            
         switch (prop.type) {
             case 'varchar':
                 inputValue = $('<input type="text" value="' + prop.value + '" /></div>');
@@ -182,7 +202,7 @@ function renderContent (properties) {
 
             case 'text':
                 divContainer.toggleClass('large', true);
-                inputValue = $('<textarea name="content-property-' + prop.name + '" id="content-property-' + prop.name + '" rows="10" cols="80">' + prop.value + '</textarea>');
+                inputValue = $('<textarea oninput="document.getElementById(\'preview\').innerHTML = markdown.toHTML(this.value);" name="content-property-' + prop.name + '" id="content-property-' + prop.name + '" rows="10" cols="80">' + prop.value + '</textarea>');
                 break;
 
             case 'int':
@@ -230,8 +250,6 @@ function renderContent (properties) {
 
         divContent.append('<div class="clear"></div>');
     }
-
-    tinymce.init({selector:'textarea'});
 
     var btnSave = $('<button class="content-button-submit" type="button">Save</button>');
     divContent.append(btnSave);
