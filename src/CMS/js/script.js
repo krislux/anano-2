@@ -194,6 +194,7 @@ function renderContent (properties) {
         var h3Name = $('<h3 class="content-property-name">' + prop.name + '</h3>');
         var divValue = $('<div class="content-property-value content-property-' + prop.type + '"></div>');
         var inputValue = null;
+        var outputValue = null;
             
         switch (prop.type) {
             case 'varchar':
@@ -202,7 +203,8 @@ function renderContent (properties) {
 
             case 'text':
                 divContainer.toggleClass('large', true);
-                inputValue = $('<textarea oninput="document.getElementById(\'preview\').innerHTML = markdown.toHTML(this.value);" name="content-property-' + prop.name + '" id="content-property-' + prop.name + '" rows="10" cols="80">' + prop.value + '</textarea>');
+                inputValue = $('<textarea oninput="document.getElementById(\'content-property-' + prop.id + '\').innerHTML = markdown.toHTML(this.value);" rows="10" cols="80">' + prop.value + '</textarea>');
+                outputValue = $('<div class="content-markdown" id="content-property-' + prop.id + '">' + markdown.toHTML(prop.value) + '</div>');
                 break;
 
             case 'int':
@@ -245,6 +247,7 @@ function renderContent (properties) {
         divContainer.append(h3Name);
         divContainer.append(divValue);
         divValue.append(inputValue);
+        divValue.append(outputValue);
 
         divContent.append(divContainer);
 

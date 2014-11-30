@@ -18,8 +18,6 @@
     <body>
         <div id="loading" style="display:none;"><img src="./img/loading-anim.gif" /></div>
 
-        <div id="preview" style="position: fixed; top: 10px; left: 500px; width: 300px; height: 200px; z-index: 999; border: 1px solid red;"></div>
-
         <div id="menu">
             <div id="menu-header"></div>
             <ul>
