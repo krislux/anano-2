@@ -203,8 +203,8 @@ function renderContent (properties) {
 
             case 'text':
                 divContainer.toggleClass('large', true);
-                inputValue = $('<textarea oninput="document.getElementById(\'content-property-' + prop.id + '\').innerHTML = markdown.toHTML(this.value);" rows="10" cols="80">' + prop.value + '</textarea>');
-                outputValue = $('<div class="content-markdown" id="content-property-' + prop.id + '">' + markdown.toHTML(prop.value) + '</div>');
+                inputValue = $('<textarea class="content-markdown-input" oninput="document.getElementById(\'content-property-' + prop.id + '\').innerHTML = markdown.toHTML(this.value);" rows="10" cols="80">' + prop.value + '</textarea>');
+                outputValue = $('<div class="content-markdown-output" id="content-property-' + prop.id + '">' + markdown.toHTML(prop.value) + '</div>');
                 break;
 
             case 'int':

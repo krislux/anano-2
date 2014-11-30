@@ -346,28 +346,50 @@ h3 {
     float: left;
 }
 
-.content-property-value > input, .content-property-value > textarea {
+.content-property-value > input {
     border: 1px solid #CCC;
     border-radius: 5px;
     line-height: 30px;
     padding: 0px 10px;
-}
-
-.content-property-value > input {
     height: 30px;
     width: 100%;
 }
 
-.content-property-value > textarea, .content-markdown {
+.content-markdown-input, .content-markdown-output {
+    line-height: 30px;
     height: 280px;
     width: 50%;
     resize: none;
-    display: inline-block;
+    display: block;
+    float: left;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
-    padding: 0px 10px;
+    padding: 6px 10px;
 }
+
+.content-markdown-input {
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.content-markdown-output {
+    border: 1px solid #CCC;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.content-markdown-output h1 { font-size: 32px; }
+.content-markdown-output h2 { font-size: 28px; }
+.content-markdown-output h3 { font-size: 24px; }
+.content-markdown-output h4 { font-size: 18px; }
+.content-markdown-output h5 { font-size: 14px; }
+.content-markdown-output h6 { font-size: 12px; }
 
 .content-property-checkbox {
     width: 30px !important;
