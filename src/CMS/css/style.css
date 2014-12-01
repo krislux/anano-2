@@ -367,20 +367,49 @@ h3 {
     border: 1px solid #CCC;
 }
 
+.content-markdown-toolbar > i {
+    width: 40px;
+    height: 28px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.content-markdown-editor > i.fa-edit {
+    border-top-left-radius: 5px;
+}
+
+.content-markdown-toolbar > i.active {
+    background-color: #CCC;
+}
+
 .content-markdown-editor > div, .content-markdown-editor > textarea {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
-    padding: 6px 10px;
 }
 
 .content-markdown-input, .content-markdown-output {
+    display: none;
+}
+
+.content-markdown-input.active, .content-markdown-output.active {
     line-height: 30px;
     height: 250px;
     width: 50%;
     resize: none;
     display: block;
     float: left;
+    padding: 6px 10px;
+}
+
+.content-markdown-input.active.fill, .content-markdown-output.active.fill {
+    width: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
 }
 
 .content-markdown-input {

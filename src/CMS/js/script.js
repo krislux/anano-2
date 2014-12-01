@@ -11,16 +11,6 @@ function length (obj) {
     return size;
 }
 
-function toggleCheckbox(box) {
-    var bool = box.data('checked');
-    
-    bool = !bool;
-
-    box.toggleClass('fa-square-o', !bool);
-    box.toggleClass('fa-check-square-o', bool);
-    box.data('checked', bool);
-}
-
 /*********************
  * Overlays
  *********************/
@@ -124,6 +114,49 @@ function openContent(properties, title) {
     renderContent(properties); 
 }
 
+function toggleCheckbox(box) {
+    var bool = box.data('checked');
+    
+    bool = !bool;
+
+    box.toggleClass('fa-square-o', !bool);
+    box.toggleClass('fa-check-square-o', bool);
+    box.data('checked', bool);
+}
+
+function toggleMarkdown(editor, mode) {
+    var input = editor.find('.content-markdown-input');
+    var inputButton = editor.find('.fa-edit');
+    var output = editor.find('.content-markdown-output');
+    var outputButton = editor.find('.fa-font');
+
+    if (mode == 'input') {
+        if (input.is(':visible')) {
+            if (output.is(':visible')) {
+                input.toggleClass('active', false);
+                output.toggleClass('fill', true);
+                inputButton.toggleClass('active', false);
+            }
+        } else {
+            input.toggleClass('active', true);
+            output.toggleClass('fill', false);
+            inputButton.toggleClass('active', true);
+        }
+    } else if (mode == 'output') {
+        if (output.is(':visible')) {
+            if (input.is(':visible')) {
+                output.toggleClass('active', false);
+                input.toggleClass('fill', true);
+                outputButton.toggleClass('active', false);
+            }
+        } else {
+            output.toggleClass('active', true);
+            input.toggleClass('fill', false);
+            outputButton.toggleClass('active', true);
+        }
+    }
+}
+
 /*********************
  * Rendering
  *********************/
@@ -133,7 +166,7 @@ function renderDatePicker(prop) {
 }
 
 function renderMarkdownEditor(prop) {
-    return $('<div class="content-markdown-editor"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
+    return $('<div class="content-markdown-editor"><div class="content-markdown-toolbar"><i onclick="toggleMarkdown($(this.parentNode.parentNode),\'input\')" class="fa fa-edit active"></i><i onclick="toggleMarkdown($(this.parentNode.parentNode),\'output\')" class="fa fa-font active"></i></div><textarea class="content-markdown-input active" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output active">' + markdown.toHTML(prop.value) + '</div></div>');
 }
 
 function renderCheckbox(prop) {
