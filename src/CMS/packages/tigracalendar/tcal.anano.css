@@ -10,14 +10,12 @@
 
 /* input box in default state */ 
 .tcalInput {
-	background: url('img/cal.gif') 100% 50% no-repeat;
 	padding-right: 20px;
 	cursor: pointer;
 }
 
 /* additional properties for input boxe in activated state, above still applies unless in conflict */
 .tcalActive {
-	background-image: url('img/no_cal.gif');
 }
 /* container of calendar's pop-up */
 #tcal {
@@ -61,7 +59,6 @@
 	line-height: 25px;
 	font-size: 10px;
 	text-align: center;
-	font-family: Tahoma, Geneva, sans-serif;
 	font-weight: bold;
 	white-space: nowrap;
 }
@@ -77,26 +74,25 @@
 	width: 100%;
 }
 #tcalGrid th {
-	border: 1px solid silver;
 	border-collapse: collapse;
 	padding: 3px 0;
 	text-align: center;
-	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 10px;
-	background-color: gray;
-	color: white;
+	color: #000;
 }
 #tcalGrid td {
 	border: 0;
 	border-collapse: collapse;
 	padding: 2px 0;
 	text-align: center;
-	font-family: Tahoma, Geneva, sans-serif;
 	width: 14%;
 	font-size: 11px;
 	cursor: pointer;
 }		
 #tcalGrid td.tcalOtherMonth { color: silver; }
-#tcalGrid td.tcalWeekend { background-color: #ACD6F5; }
+#tcalGrid td.tcalWeekend { background-color: #EFEFEF; }
 #tcalGrid td.tcalToday { border: 1px solid red; }
-#tcalGrid td.tcalSelected { background-color: #FFB3BE; }		
+#tcalGrid td.tcalSelected {
+    border-radius: 5px;
+    background-color: #53A93F;
+}		

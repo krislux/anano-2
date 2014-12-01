@@ -13,7 +13,7 @@
         $submenu = array();
 
         switch($menu_id){
-            case 'content':
+            case 'pages':
                 for ($i = 0; $i < 4; $i++){
                     $properties = array(
                         array(
@@ -26,7 +26,7 @@
                             'name' => 'BodyText',
                             'slug' => 'bodytext',
                             'type' => 'text',
-                            'value' => 'This is some text',
+                            'value' => "### This is some text\r\nAnd [this](www.pol.dk) is a link",
                         ),
                         array(
                             'name' => 'Count',

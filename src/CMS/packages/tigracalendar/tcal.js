@@ -182,8 +182,8 @@ function f_tcalOnClick () {
 		this.parentNode.appendChild(e_cal);
 	}
 	e_cal.innerHTML = f_tcalGetHTML(null);
-	e_cal.style.top = n_top + 'px';
-	e_cal.style.left = '0px';(n_left + this.offsetWidth - e_cal.offsetWidth) + 'px';
+	//e_cal.style.top = n_top + 'px';
+	//e_cal.style.left = '0px';(n_left + this.offsetWidth - e_cal.offsetWidth) + 'px';
 	e_cal.style.visibility = 'visible';
 }
 

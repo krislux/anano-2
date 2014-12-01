@@ -6,11 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             
-        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
         <link rel="stylesheet" type="text/css" media="all" href="packages/tigracalendar/tcal.anano.css" />
         <link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
             
         <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/jquery.selection.js"></script>
         <script src="js/markdown.js"></script>
         <script src="packages/tigracalendar/tcal.js"></script>
         <script src="js/script.js"></script>
@@ -22,7 +23,7 @@
         <div id="menu">
             <div id="menu-header"></div>
             <ul>
-                <li id="menu-content"><i class="fa fa-file-o"></i><p>Content</p></li>
+                <li id="menu-pages"><i class="fa fa-file-o"></i><p>Pages</p></li>
                 <li id="menu-media"><i class="fa fa-file-image-o"></i><p>Media</p></li>
                 <li id="menu-settings"><i class="fa fa-wrench"></i><p>Settings</p></li>
                 <li id="menu-developer"><i class="fa fa-cog"></i><p>Developer</p></li>

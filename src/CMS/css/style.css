@@ -338,6 +338,7 @@ h3 {
 .content-property-name {
     width: 20%;
     height: 30px;
+    line-height: 30px;
     float: left;
 }
 
@@ -346,17 +347,25 @@ h3 {
     float: left;
 }
 
-.content-property-value > input {
+.content-property-value > input, .content-property-value > select {
     border: 1px solid #CCC;
     border-radius: 5px;
     line-height: 30px;
     padding: 0px 10px;
     height: 30px;
+}
+
+.content-property-value > input {
     width: 100%;
 }
 
 .content-date-picker {
     max-width: 176px !important;
+}
+
+.content-date-icon {
+    margin-left: -20px;
+    cursor: pointer;
 }
 
 .content-markdown-toolbar {
@@ -365,22 +374,29 @@ h3 {
     border-top-right-radius: 5px;
     height: 30px;
     border: 1px solid #CCC;
+    background-color: #CCC;
 }
 
 .content-markdown-toolbar > i {
     width: 40px;
     height: 28px;
-    line-height: 30px;
+    line-height: 28px;
     text-align: center;
     cursor: pointer;
+    color: #666;
 }
 
-.content-markdown-editor > i.fa-edit {
-    border-top-left-radius: 5px;
+.content-markdown-toolbar > i:hover {
+    color: #000;
+}
+
+.content-markdown-toolbar > i.fa-columns {
+    border-top-right-radius: 5px;
+    float: right;
 }
 
 .content-markdown-toolbar > i.active {
-    background-color: #CCC;
+    background-color: #999;
 }
 
 .content-markdown-editor > div, .content-markdown-editor > textarea {
@@ -433,13 +449,15 @@ h3 {
 .content-markdown-output h4 { font-size: 18px; }
 .content-markdown-output h5 { font-size: 14px; }
 .content-markdown-output h6 { font-size: 12px; }
+.content-markdown-output strong { font-weight: bold; }
+.content-markdown-output em { font-style: italic; }
 
 .content-property-checkbox {
     width: 30px !important;
 }
 
-.cke {
-    width: 100%;
+.fa-small {
+    font-size: 10px;
 }
 
 .content-button-submit {
@@ -466,3 +484,4 @@ h3 {
     text-align: left;
     font-size: 16px !important;
 }
+

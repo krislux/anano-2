@@ -157,16 +157,120 @@ function toggleMarkdown(editor, mode) {
     }
 }
 
+function toggleMarkdownSplit(editor) {
+    var input = editor.find('.content-markdown-input');
+    var output = editor.find('.content-markdown-output');
+    var splitButton = editor.find('.fa-columns');
+    var show = output.is(':visible');
+    
+    output.toggleClass('active', !show);
+    splitButton.toggleClass('active', !show);
+    input.toggleClass('fill', show);
+}
+
+function insertAtIndex(a, b, position) {
+    return [a.slice(0, position), b, a.slice(position)].join('');
+}
+
+function wrapSelection(editor, before, after) {
+    var input = editor.find('.content-markdown-input');
+    var output = editor.find('.content-markdown-output');
+   
+    if (input.selection('get').length > 0) {
+        if (before && after) {
+            input.selection('insert', {text: before, mode: 'before'}).selection('insert', {text: after, mode: 'after'}); 
+        } else if (before) {
+            input.selection('insert', {text: before, mode: 'before'}); 
+        } else if (after) {
+            input.selection('insert', {text: after, mode: 'after'}); 
+        }
+        
+        output.html(markdown.toHTML(input.val()));
+    }
+}
+
+function setBold(editor) {
+    wrapSelection(editor,'**','**');
+}
+
+function setItalic(editor) {
+    wrapSelection(editor,'_','_');
+}
+
+function setLink(editor) {
+    wrapSelection(editor,'[','](http://)');
+}
+
+function getSelectionStart(input) {
+    var index = input.selection('getPos').start;
+    var lines = input.val().split('\n');
+    var count = 0;
+
+    for(var i = 0; i < lines.length; i++) {
+        if (index >= count && index <= count + lines[i].length) {
+            index = count == 0 ? count : count+1;
+            break;
+        } else {
+            count += lines[i].length;
+        }
+    }
+
+    return index;
+}
+
+function setSmallerHeader(editor) {
+    var input = editor.find('.content-markdown-input');
+    var output = editor.find('.content-markdown-output');
+    var pos = input.selection('getPos');
+    var index = getSelectionStart(input);
+        
+    if (input.val().slice(index,index+6) != '######') {
+        input.val(insertAtIndex(input.val(), '#', index)); 
+        output.html(markdown.toHTML(input.val()));
+        input.selection('setPos',pos);
+    }
+}
+
+function setLargerHeader(editor) {
+    var input = editor.find('.content-markdown-input');
+    var output = editor.find('.content-markdown-output');
+    var index = getSelectionStart(input);
+    var firstCharacter = input.val().slice(index,index+1);
+
+    if (firstCharacter == '#') {
+        var pos = input.selection('getPos');
+        var before = input.val().slice(0,index);
+        var after = input.val().slice(index+1,input.val().length);
+        
+        input.val(before + after);
+        output.html(markdown.toHTML(input.val()));
+        input.selection('setPos',pos);
+    }
+}
+
 /*********************
  * Rendering
  *********************/
 /* Controls */
 function renderDatePicker(prop) {
-    return $('<input type="text" class="tcal content-date-picker" value="' + prop.value +'"/>');
+    return $('<input type="text" class="tcal content-date-picker" value="' + prop.value +'"/><i class="fa fa-calendar content-date-icon"></i>');
 }
 
 function renderMarkdownEditor(prop) {
-    return $('<div class="content-markdown-editor"><div class="content-markdown-toolbar"><i onclick="toggleMarkdown($(this.parentNode.parentNode),\'input\')" class="fa fa-edit active"></i><i onclick="toggleMarkdown($(this.parentNode.parentNode),\'output\')" class="fa fa-font active"></i></div><textarea class="content-markdown-input active" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output active">' + markdown.toHTML(prop.value) + '</div></div>');
+    return $('' +
+        '<div class="content-markdown-editor">' +
+            '<div class="content-markdown-toolbar">' +
+                '<i onclick="toggleMarkdownSplit($(this.parentNode.parentNode))" class="fa fa-columns active"></i>' +
+                '<i onclick="setBold($(this.parentNode.parentNode))" class="fa fa-bold"></i>' +  
+                '<i onclick="setItalic($(this.parentNode.parentNode))" class="fa fa-italic"></i>' +  
+                '<i onclick="setLargerHeader($(this.parentNode.parentNode))" class="fa fa-header"></i>' +  
+                '<i onclick="setSmallerHeader($(this.parentNode.parentNode))" class="fa fa-header fa-small"></i>' +  
+                '<i onclick="setLink($(this.parentNode.parentNode))" class="fa fa-link"></i>' +  
+            '</div>' +
+            '<textarea class="content-markdown-input active" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea>' +
+            '<div class="content-markdown-output active">' + markdown.toHTML(prop.value) + '</div>' +
+        '</div>' +
+    '');
 }
 
 function renderCheckbox(prop) {
@@ -305,8 +409,8 @@ function renderContent (properties) {
  * Init
  *********************/
 $(document).ready(function() {
-    $('#menu-content').click(function() {
-        openSubmenu('content');
+    $('#menu-pages').click(function() {
+        openSubmenu('pages');
     });
 
     $('#content').click(function() {
