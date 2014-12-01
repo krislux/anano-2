@@ -118,8 +118,16 @@ function openContent(properties, title) {
  * Rendering
  *********************/
 /* Controls */
+function renderDatePicker(prop) {
+    var picker = $('<input id="content-property-' + prop.name + '" type="text" id="gldp-' + prop.name + '" gldp-id="gldp-' + prop.name + '" />');
+
+    picker.glDatePicker();
+
+    return picker;
+}
+
 function renderMarkdownEditor(prop) {
-    return $('<div class="content-markdown-editor" id="content-property-' + prop.id + '"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
+    return $('<div class="content-markdown-editor" id="content-property-' + prop.name + '"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
 }
 
 /* Context menu */
@@ -223,22 +231,7 @@ function renderContent (properties) {
                 break;
 
             case 'datetime':
-                inputValue = $('<input class="content-date-picker" value="' + prop.value + '" type="text"/>');
-                inputValue.glDatePicker({
-                    showAlways: true,
-                    selectableDateRange: [
-                        { from: new Date(2013, 0, 1),
-                            to: new Date(2015, 11, 31) },
-                    ],
-                    selectableYears: [2013, 2014, 2015],
-                    onClick: function(el, cell, date, data) {
-                        el.val
-                        (
-                            date.getDate()+"-"+(date.getMonth() + 1)+"-"+date.getFullYear()
-                        );
-                    }
-                });
-
+                inputValue = renderDatePicker(prop);
                 break;
 
             case 'enum':
