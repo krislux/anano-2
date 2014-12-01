@@ -11,6 +11,16 @@ function length (obj) {
     return size;
 }
 
+function toggleCheckbox(box) {
+    var bool = box.data('checked');
+    
+    bool = !bool;
+
+    box.toggleClass('fa-square-o', !bool);
+    box.toggleClass('fa-check-square-o', bool);
+    box.data('checked', bool);
+}
+
 /*********************
  * Overlays
  *********************/
@@ -119,11 +129,18 @@ function openContent(properties, title) {
  *********************/
 /* Controls */
 function renderDatePicker(prop) {
-    return $('<input id="content-property-' + prop.name + '" type="text" class="tcal content-date-picker" />');
+    return $('<input type="text" class="tcal content-date-picker" value="' + prop.value +'"/>');
 }
 
 function renderMarkdownEditor(prop) {
-    return $('<div class="content-markdown-editor" id="content-property-' + prop.name + '"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
+    return $('<div class="content-markdown-editor"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
+}
+
+function renderCheckbox(prop) {
+    var box = $('<div class="content-property-checkbox fa" onclick="toggleCheckbox($(this))"></div>');
+    box.data('checked', prop.value == 'true');
+    toggleCheckbox(box, prop.value == 'true');
+    return box;
 }
 
 /* Context menu */
@@ -201,7 +218,7 @@ function renderContent (properties) {
         var prop = properties[i];
         var divContainer = $('<div class="content-property"></div>');
         var h3Name = $('<h3 class="content-property-name">' + prop.name + '</h3>');
-        var divValue = $('<div class="content-property-value content-property-' + prop.type + '"></div>');
+        var divValue = $('<div id="content-property-id-' + prop.slug + '" class="content-property-value content-property-' + prop.type + '"></div>');
         var inputValue = null;
             
         switch (prop.type) {
@@ -223,7 +240,7 @@ function renderContent (properties) {
                 break;
 
             case 'bool':
-                inputValue = $('<input type="checkbox" class="content-property-checkbox" value="' + prop.value + '" />');
+                inputValue = renderCheckbox(prop);
                 break;
 
             case 'datetime':

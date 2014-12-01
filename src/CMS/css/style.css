@@ -413,7 +413,6 @@ h3 {
     width: 100%;
 }
 
-/* Buttons */
 .content-button-submit {
     background-color: #53A93F;
     padding: 8px 32px;
@@ -428,4 +427,13 @@ h3 {
 
 .content-button-submit:active {
     background: #487E2F;
+}
+
+.content-property-checkbox {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px !important;
 }

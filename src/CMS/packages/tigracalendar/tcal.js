@@ -9,7 +9,7 @@ var A_TCALCONF = {
 	'weekdays'   : ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
 	'longwdays'  : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 	'yearscroll' : true, // show year scroller
-	'weekstart'  : 0, // first day of week: 0-Su or 1-Mo
+	'weekstart'  : 1, // first day of week: 0-Su or 1-Mo
 	'prevyear'   : 'Previous Year',
 	'nextyear'   : 'Next Year',
 	'prevmonth'  : 'Previous Month',
@@ -172,18 +172,18 @@ function f_tcalOnClick () {
 	f_tcalAddClass(this, s_activeClass);
 	
 	var n_left = f_getPosition (this, 'Left'),
-		n_top  = f_getPosition (this, 'Top') + this.offsetHeight;
+		n_top  = f_getPosition (this, 'Top');
 
 	var e_cal = document.getElementById(s_pfx);
 	if (!e_cal) {
 		e_cal = document.createElement('div');
 		e_cal.onselectstart = function () { return false };
 		e_cal.id = s_pfx;
-		document.getElementsByTagName("body").item(0).appendChild(e_cal);
+		this.parentNode.appendChild(e_cal);
 	}
 	e_cal.innerHTML = f_tcalGetHTML(null);
 	e_cal.style.top = n_top + 'px';
-	e_cal.style.left = (n_left + this.offsetWidth - e_cal.offsetWidth) + 'px';
+	e_cal.style.left = '0px';(n_left + this.offsetWidth - e_cal.offsetWidth) + 'px';
 	e_cal.style.visibility = 'visible';
 }
 

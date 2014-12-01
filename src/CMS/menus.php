@@ -18,36 +18,43 @@
                     $properties = array(
                         array(
                             'name' => 'Title',
+                            'slug' => 'title',
                             'type' => 'varchar',
                             'value' => 'This is a title',
                         ),
                         array(
                             'name' => 'BodyText',
+                            'slug' => 'bodytext',
                             'type' => 'text',
                             'value' => 'This is some text',
                         ),
                         array(
                             'name' => 'Count',
+                            'slug' => 'count',
                             'type' => 'int',
                             'value' => 0,
                         ),
                         array(
                             'name' => 'Degrees',
+                            'slug' => 'degrees',
                             'type' => 'double',
                             'value' => 0.5,
                         ),
                         array(
                             'name' => 'Flag',
+                            'slug' => 'flag',
                             'type' => 'bool',
                             'value' => true,
                         ),
                         array(
                             'name' => 'CreationDateTime',
+                            'slug' => 'creationdatetime',
                             'type' => 'datetime',
                             'value' => '2014-10-06',
                         ),
                         array(
                             'name' => 'Option',
+                            'slug' => 'option',
                             'type' => 'enum',
                             'value' => 'fisk',
                         ),
