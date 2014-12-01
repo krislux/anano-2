@@ -12,6 +12,7 @@ class Migrator
         static::$driver = $driver;
     }
     
+    
     /**
      * Load table structure from JSON input, either file or string.
      */
@@ -35,7 +36,7 @@ class Migrator
         {
         case 'mysql':
             
-            $sql  = "CREATE TABLE `{$this->table->name}` (\r\n";
+            $sql = "CREATE TABLE `{$this->table->name}` (\r\n";
             $lines = array();
             $pk = null;
             
