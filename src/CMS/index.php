@@ -7,12 +7,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             
         <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="packages/gldatepicker/styles/glDatePicker.default.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="packages/tigracalendar/tcal.css" />
         <link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
             
         <script src="js/jquery-2.1.1.min.js"></script>
         <script src="js/markdown.js"></script>
-        <script src="packages/gldatepicker/glDatePicker.min.js"></script>
+        <script src="packages/tigracalendar/tcal.js"></script>
         <script src="js/script.js"></script>
     </head>
 

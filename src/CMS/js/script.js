@@ -119,11 +119,7 @@ function openContent(properties, title) {
  *********************/
 /* Controls */
 function renderDatePicker(prop) {
-    var picker = $('<input id="content-property-' + prop.name + '" type="text" id="gldp-' + prop.name + '" gldp-id="gldp-' + prop.name + '" />');
-
-    picker.glDatePicker();
-
-    return picker;
+    return $('<input id="content-property-' + prop.name + '" type="text" class="tcal content-date-picker" />');
 }
 
 function renderMarkdownEditor(prop) {
@@ -249,6 +245,8 @@ function renderContent (properties) {
         divContent.append('<div class="clear"></div>');
     }
 
+    f_tcalInit();
+        
     var btnSave = $('<button class="content-button-submit" type="button">Save</button>');
     divContent.append(btnSave);
 }
