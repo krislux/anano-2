@@ -13,6 +13,7 @@ return array(
     'View' => 'Anano\Response\View',
     'Template' => 'Anano\Template',
     'Hash' => 'Anano\Crypto\Hash',
-    'Input' => 'Anano\Input\Input',
-    'Session' => 'Anano\Input\Session',
+    'Input' => 'Anano\Http\Input',
+    'Session' => 'Anano\Http\Session',
+    'Model' => 'Anano\Database\ORM\Model',
 );

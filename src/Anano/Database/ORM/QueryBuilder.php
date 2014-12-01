@@ -1,8 +1,8 @@
 <?php
 
-namespace Anano\ORM;
+namespace Anano\Database\ORM;
 
-class QueryBuilder extends Database
+class QueryBuilder extends \Anano\Database\Database
 {
     private $query = array();
     private $flags = array();

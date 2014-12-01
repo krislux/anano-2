@@ -27,14 +27,14 @@ final class App
         
         header_remove('X-Powered-By');
         date_default_timezone_set(Config::get('app.timezone'));
-
+        
         $aliases = Config::get('aliases');
         foreach ($aliases as $key => $val)
             class_alias($val, $key);
         
         $session = Config::get('app.session');
         if ($session)
-            Input\Session::start($session);
+            \Session::start($session);
         
         // ActiveRecord set up if included.
         if (defined('PHP_ACTIVERECORD_VERSION_ID'))
@@ -124,7 +124,7 @@ final class App
             throw new \ErrorException($errstr, $errno, 0, $errfile, $errline);
         });
         
-        $router = new Router;
+        $router = self::make('Router');
         $response = $router->run();
         
         if($response instanceof \Response)

@@ -64,7 +64,9 @@ return array(
      */
     
     'binds' => array(
-        'Database' => 'Anano\\ORM\\Database',  
-        'QueryBuilder' => 'Anano\\ORM\\QueryBuilder',  
+        //'Router' => 'Anano\\Routing\\Router',
+        'Router' => 'Anano\\Router',
+        'Database' => 'Anano\\Database\\ORM\\Database',
+        'QueryBuilder' => 'Anano\\Database\\ORM\\QueryBuilder',
     ),
 );

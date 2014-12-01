@@ -21,6 +21,10 @@ class Main extends Controller
     
     function index()
     {
+        $migrator = new Anano\Database\Migrator;
+        $sql = $migrator->fromJson( STORAGE_DIR . '/table.json' )->buildQuery(new \Anano\Database\Database);
+        dd($sql);
+        
         return new View('home', array('title' => 'Anano'));
     }
     

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anano\Input;
+namespace Anano\Http;
 
 abstract class Input
 {

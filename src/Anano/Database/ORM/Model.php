@@ -1,6 +1,6 @@
 <?php
 
-namespace Anano\ORM;
+namespace Anano\Database\ORM;
 
 abstract class Model extends QueryBuilder
 {

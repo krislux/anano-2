@@ -1,6 +1,6 @@
 <?php
 
-class Native extends Anano\ORM\Model
+class Native extends Model
 {
     public $table_name = 'test';
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anano\ORM;
+namespace Anano\Database;
 
 use Anano\Config;
 
