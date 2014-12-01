@@ -117,6 +117,11 @@ function openContent(properties, title) {
 /*********************
  * Rendering
  *********************/
+/* Controls */
+function renderMarkdownEditor(prop) {
+    return $('<div class="content-markdown-editor" id="content-property-' + prop.id + '"><div class="content-markdown-toolbar"><i class="fa fa-file-o"></i></div><textarea class="content-markdown-input" oninput="$(this).next().html(markdown.toHTML(this.value));" rows="10" cols="80">' + prop.value + '</textarea><div class="content-markdown-output">' + markdown.toHTML(prop.value) + '</div></div>');
+}
+
 /* Context menu */
 function renderContextMenu(contextMenu, nodeType) {
     var menuContainer = $('#context-menu');
@@ -194,7 +199,6 @@ function renderContent (properties) {
         var h3Name = $('<h3 class="content-property-name">' + prop.name + '</h3>');
         var divValue = $('<div class="content-property-value content-property-' + prop.type + '"></div>');
         var inputValue = null;
-        var outputValue = null;
             
         switch (prop.type) {
             case 'varchar':
@@ -203,8 +207,7 @@ function renderContent (properties) {
 
             case 'text':
                 divContainer.toggleClass('large', true);
-                inputValue = $('<textarea class="content-markdown-input" oninput="document.getElementById(\'content-property-' + prop.id + '\').innerHTML = markdown.toHTML(this.value);" rows="10" cols="80">' + prop.value + '</textarea>');
-                outputValue = $('<div class="content-markdown-output" id="content-property-' + prop.id + '">' + markdown.toHTML(prop.value) + '</div>');
+                inputValue = renderMarkdownEditor(prop);
                 break;
 
             case 'int':
@@ -247,7 +250,6 @@ function renderContent (properties) {
         divContainer.append(h3Name);
         divContainer.append(divValue);
         divValue.append(inputValue);
-        divValue.append(outputValue);
 
         divContent.append(divContainer);
 

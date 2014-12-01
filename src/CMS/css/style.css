@@ -355,30 +355,40 @@ h3 {
     width: 100%;
 }
 
-.content-markdown-input, .content-markdown-output {
-    line-height: 30px;
-    height: 280px;
-    width: 50%;
-    resize: none;
-    display: block;
-    float: left;
+.content-markdown-toolbar {
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 30px;
+    border: 1px solid #CCC;
+}
+
+.content-markdown-editor > div, .content-markdown-editor > textarea {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
     padding: 6px 10px;
 }
 
+.content-markdown-input, .content-markdown-output {
+    line-height: 30px;
+    height: 250px;
+    width: 50%;
+    resize: none;
+    display: block;
+    float: left;
+}
+
 .content-markdown-input {
-    border-top: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
-    border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
 .content-markdown-output {
-    border: 1px solid #CCC;
-    border-top-right-radius: 5px;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
     border-bottom-right-radius: 5px;
     overflow-x: hidden;
     overflow-y: auto;
