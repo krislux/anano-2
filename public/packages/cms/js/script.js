@@ -57,11 +57,11 @@ function openSubmenu (name) {
             var container = $('#submenu ul');
             var html = '';
             
-            try {
+            //try {
                 renderSubmenu(submenu, $('#submenu ul'), name);
-            } catch (error) {
-                alert ( "ERROR\n" + error );
-            }
+            //} catch (error) {
+            //    alert ( "ERROR\n" + error );
+            //}
             
             setLoading(false);
         }
