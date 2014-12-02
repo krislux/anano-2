@@ -63,11 +63,11 @@ function f_tcalGetHTML (d_date) {
 	d_firstDay.setDate(1 - (7 + d_firstDay.getDay() - A_TCALCONF.weekstart) % 7);
 
 	var a_class, s_html = '<table id="' + s_pfx + 'Controls"><tbody><tr>'
-		+ (A_TCALCONF.yearscroll ? '<td id="' + s_pfx + 'PrevYear" ' + f_tcalRelDate(d_date, -1, 'y') + ' title="' + A_TCALCONF.prevyear + '"></td>' : '')
-		+ '<td id="' + s_pfx + 'PrevMonth"' + f_tcalRelDate(d_date, -1) + ' title="' + A_TCALCONF.prevmonth + '"></td><th>'
+		+ (A_TCALCONF.yearscroll ? '<td class="fa fa-fast-backward" id="' + s_pfx + 'PrevYear" ' + f_tcalRelDate(d_date, -1, 'y') + ' title="' + A_TCALCONF.prevyear + '"></td>' : '')
+		+ '<td class="fa fa-step-backward" id="' + s_pfx + 'PrevMonth"' + f_tcalRelDate(d_date, -1) + ' title="' + A_TCALCONF.prevmonth + '"></td><th>'
 		+ A_TCALCONF.months[d_date.getMonth()] + ' ' + d_date.getFullYear()
-		+ '</th><td id="' + s_pfx + 'NextMonth"' + f_tcalRelDate(d_date, 1) + ' title="' + A_TCALCONF.nextmonth + '"></td>'
-		+ (A_TCALCONF.yearscroll ? '<td id="' + s_pfx + 'NextYear"' + f_tcalRelDate(d_date, 1, 'y') + ' title="' + A_TCALCONF.nextyear + '"></td>' : '')
+		+ '</th><td class="fa fa-step-forward" id="' + s_pfx + 'NextMonth"' + f_tcalRelDate(d_date, 1) + ' title="' + A_TCALCONF.nextmonth + '"></td>'
+		+ (A_TCALCONF.yearscroll ? '<td class="fa fa-fast-forward" id="' + s_pfx + 'NextYear"' + f_tcalRelDate(d_date, 1, 'y') + ' title="' + A_TCALCONF.nextyear + '"></td>' : '')
 		+ '</tr></tbody></table><table id="' + s_pfx + 'Grid"><tbody><tr>';
 
 	// print weekdays titles
