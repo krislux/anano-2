@@ -1,25 +1,29 @@
 <html>
     <head>
         <title>Anano CMS</title>
-            
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-            
-        <link rel="stylesheet" type="text/css" media="all" href="packages/tigracalendar/tcal.anano.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-            
-        <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/jquery.selection.js"></script>
-        <script src="js/markdown.js"></script>
-        <script src="packages/tigracalendar/tcal.js"></script>
-        <script src="js/script.js"></script>
+        
+        <link rel="stylesheet" type="text/css" media="all" href="/public/packages/tigracalendar/tcal.anano.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="/public/packages/cms/fonts/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="/public/packages/cms/css/style.css" />
+        
+        <script src="/public/packages/cms/js/jquery-2.1.1.min.js"></script>
+        <script src="/public/packages/cms/js/jquery.selection.js"></script>
+        <script src="/public/packages/cms/js/markdown.js"></script>
+        <script src="/public/packages/tigracalendar/tcal.js"></script>
+        <script src="/public/packages/cms/js/script.js"></script>
+        <script>
+            var BASEDIR = "@approot";
+            var token = "@token";
+        </script>
     </head>
-
+    
     <body>
-        <div id="loading" style="display:none;"><img src="./img/loading-anim.gif" /></div>
-
+        <div id="loading" style="display:none;"><img src="/public/packages/cms/img/loading-anim.gif" /></div>
+        
         <div id="menu">
             <div id="menu-header"></div>
             <ul>
@@ -48,7 +52,7 @@
             <ul>
             </ul>
         </div>
-
+        
         <div id="content">
             <div id="content-header">
                 <div class="content-container">

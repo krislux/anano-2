@@ -46,25 +46,21 @@ function toggleSubitems(item) {
 /* Submenu */
 function openSubmenu (name) {
     setLoading(true);
-    
     $.ajax({
-        url: 'menus.php?getSubmenu=' + name,
+        url: BASEDIR + '/cms/menus/' + name,
+        data: {
+            token: token
+        },
         cache: false,
         type: 'POST',
-        contentType: false,
-        processData: false,
-        success: function (json) {
+        success: function (submenu) {
             var container = $('#submenu ul');
             var html = '';
             
             try {
-                var submenu = JSON.parse(json);
-                
                 renderSubmenu(submenu, $('#submenu ul'), name);
-
             } catch (error) {
                 alert ( "ERROR\n" + error );
-            
             }
             
             setLoading(false);
