@@ -10,7 +10,16 @@ class Cms extends Controller
     
     function index()
     {
+        new CMS\Data\CmsModel('mtest');
         return new View('cms/index');
+    }
+    
+    function createTable()
+    {
+        $migrator = new Anano\Database\Migrator;
+        $rv = $migrator->fromJson(STORAGE_DIR . '/cms/table.json')->buildQuery();
+        //with(new Anano\Database\Database)->query($rv);
+        return Response::text($rv);
     }
     
     function menus($menu_id)

@@ -12,7 +12,6 @@ class Migrator
         static::$driver = $driver;
     }
     
-    
     /**
      * Load table structure from JSON input, either file or string.
      */
@@ -24,6 +23,19 @@ class Migrator
         return $this;
     }
     
+    /**
+     * Save structure to JSON file
+     */
+    
+    public function toJson($fileName)
+    {
+        if ($this->table)
+        {
+            $json = json_encode($this->table);
+            file_put_contents($fileName, $json);
+        }
+        return true;
+    }
     
     /**
      * Build the query to create the table.
@@ -42,15 +54,25 @@ class Migrator
             
             foreach ($this->table->columns as $column)
             {
+                if (!isset($column->slug))
+                    $column->slug = preg_replace('/[^\w]/', '', strtolower($column->name) );
+                
                 $temp = array();
-                $temp[] = "`{$column->name}` " . self::typef($column->type);
+                $temp[] = "\t`{$column->slug}` " . self::typef($column->type);
+                if ($column->type == 'bool')
+                {
+                    $column->size = 1;
+                    $column->unsigned = true;
+                }
                 if (isset($column->size))
                     $temp[] = "({$column->size})";
+                if (isset($column->unsigned) && $column->unsigned)
+                    $temp[] = 'UNSIGNED';
                 if (!isset($column->nullable) || !$column->nullable)
                     $temp[] = 'NOT NULL';
                 if (isset($column->autoincrement) && $column->autoincrement)
                     $temp[] = 'AUTO_INCREMENT';
-                if (isset($column->default) && $column->default)
+                if (isset($column->default))
                     $temp[] = "DEFAULT '{$column->default}'";
                 if (isset($column->prkey) && $column->prkey)
                     $pk = $column->name;
@@ -59,14 +81,14 @@ class Migrator
             }
             
             if ($pk)
-                $lines[] = "PRIMARY KEY (`$pk`)";
+                $lines[] = "\tPRIMARY KEY (`$pk`)";
             
             $sql .= implode(",\r\n", $lines);
             
-            $sql .= "\r\n)\r\nENGINE=InnoDB\r\n";
+            $sql .= "\r\n)\r\nENGINE = InnoDB\r\n";
             
             if (isset($this->table->charset))
-                $sql .= "CHARACTER SET = '{$this->table->charset}'";
+                $sql .= "CHARACTER SET = '{$this->table->charset}'\r\n";
             if (isset($this->table->collation))
                 $sql .= "COLLATE = '{$this->table->collation}'\r\n";
             
@@ -80,7 +102,6 @@ class Migrator
         return $sql;
     }
     
-    
     /**
      * Format an internal datatype as real datatype depending on DB driver.
      */
@@ -93,7 +114,10 @@ class Migrator
         {
         case 'mysql':
             static $mysql_types = array(
+                'bool' => 'TINYINT',
+                'tinyint' => 'TINYINT',
                 'int' => 'INT',
+                'double' => 'DOUBLE',
                 'string' => 'VARCHAR',
                 'text' => 'TEXT',
                 'binary' => 'BLOB',
@@ -106,7 +130,6 @@ class Migrator
             break;
         }
     }
-    
     
     /**
      * If source is file or URL, return content - otherwise just return input.
