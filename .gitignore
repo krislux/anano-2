@@ -12,3 +12,5 @@ composer.lock
 
 ### Mac crap ###
 .DS_Store
+
+tests/_output/*

@@ -5,12 +5,12 @@ namespace CMS\Data;
 class CmsModel extends \Anano\Database\ORM\Model
 {
     public $timestamps = false;
+    public $struct;
     
     public function __construct($table_name)
     {
         $this->table_name = $table_name;
-        $struct = $this->describe();
-        dd($struct);
+        $this->struct = $this->describe(); // @todo Migrator::fromSQL
     }
     
     public function __set($name, $value)
