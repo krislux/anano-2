@@ -8,7 +8,8 @@ class Router
     
     public function __construct()
     {
-        $args_str = substr($_SERVER['REQUEST_URI'], strlen( dirname($_SERVER['SCRIPT_NAME']) ) + 1 );
+        $args_str = substr($_SERVER['REQUEST_URI'], strlen( dirname($_SERVER['SCRIPT_NAME']) )  );
+        if ($args_str === false) $args_str = $_SERVER['REQUEST_URI'];
         
         // Remove query string
         $pos = strpos($args_str, '?');
