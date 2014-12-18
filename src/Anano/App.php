@@ -6,6 +6,7 @@ final class App
 {
     private static $config;
     private static $profile_start;
+    private static $current_route;
     
     /**
      * Initialises framework, including setting up autoloading.
@@ -116,6 +117,20 @@ final class App
         $t2 = microtime(true);
         
         return ($t2 - $t1) * 1000;
+    }
+    
+    public static function current($rooted_relative=true)
+    {
+        $url = $_SERVER['REQUEST_URI'];
+        
+        $pos = strpos($url, '?');
+        if ($pos !== false)
+            $url = substr($url, 0, $pos);
+        
+        if ($rooted_relative)
+            $url = substr($url, strlen(self::root()));
+        
+        return $url;
     }
     
     public function __construct()
