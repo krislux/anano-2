@@ -70,6 +70,14 @@ abstract class Model extends QueryBuilder
         return new static($id);
     }
     
+    public function toArray()
+    {
+        $ar = array();
+        foreach ($this->fields as $key => $val)
+            $ar[$key] = $val;
+        return $ar;
+    }
+    
     /**
      * Save the current model instance. By default only modified data is saved, and timestamp updated only if anything is changed.
      * This can be overridden with the $force argument.

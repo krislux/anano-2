@@ -16,7 +16,7 @@ class CmsModel extends \Anano\Database\ORM\Model
     public function __set($name, $value)
     {
         $this->fields[$name] = $value;
-    }
+    }   
     
     public function __get($name)
     {

@@ -107,7 +107,10 @@ class Cms extends Controller
 
     function getContent($node_id)
     {
-        return Response::json($this->getTestNodes()[$node_id]);    
+        $model = with(new Mtest)->find($node_id);
+        return Response::json($model->toArray());
+        
+        //return Response::json($this->getTestNodes()[$node_id]);    
     }
 
     function menus($menu_id)
