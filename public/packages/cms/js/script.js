@@ -102,12 +102,29 @@ function openContextMenu (nodeType) {
 }
 
 /* Content */
-function openContent(properties, title) {
+function openContent(id) {
     closeContextMenu();
- 
-    $('#content-header h3').html(title);
 
-    renderContent(properties); 
+    $.ajax({
+        url: BASEDIR + '/cms/get_content/' + id,
+        cache: false,
+        type: 'POST',
+        data: {
+            token: token
+        },
+        success: function(node) {
+            try {
+                $('#content-header h3').html(node.title);
+                renderContent(node.properties);
+            
+            } catch (error) {
+                alert ( 'ERROR\n' + error + '\n' + json );
+            
+            }
+            
+            setLoading(false);
+        }
+    });
 }
 
 function toggleCheckbox(box) {
@@ -328,8 +345,8 @@ function renderSubmenu(submenu, ulParent, name) {
             caret = '<i onclick="toggleSubitems(this);" class="fa fa-caret-right"></i>';
         }
 
-        var li = $('<li>' + caret + '<i class="fa fa-' + item.icon + '"></i><p onclick="openContent($(this.parentNode).data(\'properties\'), \'' + item.name + '\')">' + name + '</p><i class="submenu-context-button fa fa-ellipsis-h" onclick="openContextMenu(\'' + item.type + '\')"></i></li>');
-        li.data ( "properties", item.properties );
+        var li = $('<li>' + caret + '<i class="fa fa-' + item.icon + '"></i><p onclick="openContent($(this.parentNode).data(\'id\'), \'' + item.name + '\')">' + name + '</p><i class="submenu-context-button fa fa-ellipsis-h" onclick="openContextMenu(\'' + item.type + '\')"></i></li>');
+        li.data ( "id", item.id );
         
         ulParent.append(li);
 

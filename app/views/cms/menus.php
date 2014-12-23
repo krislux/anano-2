@@ -1,4 +1,81 @@
 <?php
+    $testNodes = array();
+
+    for ($i = 0; $i < 4; $i++){
+        $properties = array(
+            array(
+                'name' => 'Title',
+                'slug' => 'title',
+                'type' => 'varchar',
+                'value' => 'This is a title',
+            ),
+            array(
+                'name' => 'BodyText',
+                'slug' => 'bodytext',
+                'type' => 'text',
+                'value' => "### This is some text\r\nAnd [this](www.pol.dk) is a link",
+            ),
+            array(
+                'name' => 'Count',
+                'slug' => 'count',
+                'type' => 'int',
+                'value' => 0,
+            ),
+            array(
+                'name' => 'Degrees',
+                'slug' => 'degrees',
+                'type' => 'double',
+                'value' => 0.5,
+            ),
+            array(
+                'name' => 'Flag',
+                'slug' => 'flag',
+                'type' => 'bool',
+                'value' => true,
+            ),
+            array(
+                'name' => 'CreationDateTime',
+                'slug' => 'creationdatetime',
+                'type' => 'datetime',
+                'value' => '2014-10-06',
+            ),
+            array(
+                'name' => 'Option',
+                'slug' => 'option',
+                'type' => 'enum',
+                'value' => 'fisk',
+            ),
+        );
+        
+        $item = array(
+            'name' => 'SubNode',
+            'slug' => 'subnode',
+            'type' => 'page',
+            'icon' => 'file',
+            'properties' => $properties,
+        );
+
+        $item2 = $item;
+        $item2['subitems'] = array (
+            $item,
+            $item,
+            $item,
+        );
+
+        $testNodes[$i] = array(
+            'name' => 'Node',
+            'slug' => 'node',
+            'type' => 'page',
+            'icon' => 'file',
+            'properties' => $properties,
+            'subitems' => array(
+                $item,
+                $item2,
+            ),
+        );
+    }
+
+
     function get ($field, $default = '') {
         if (isset($_REQUEST[$field])) {
             return $_REQUEST[$field];
@@ -14,80 +91,7 @@
 
         switch($menu_id){
             case 'pages':
-                for ($i = 0; $i < 4; $i++){
-                    $properties = array(
-                        array(
-                            'name' => 'Title',
-                            'slug' => 'title',
-                            'type' => 'varchar',
-                            'value' => 'This is a title',
-                        ),
-                        array(
-                            'name' => 'BodyText',
-                            'slug' => 'bodytext',
-                            'type' => 'text',
-                            'value' => "### This is some text\r\nAnd [this](www.pol.dk) is a link",
-                        ),
-                        array(
-                            'name' => 'Count',
-                            'slug' => 'count',
-                            'type' => 'int',
-                            'value' => 0,
-                        ),
-                        array(
-                            'name' => 'Degrees',
-                            'slug' => 'degrees',
-                            'type' => 'double',
-                            'value' => 0.5,
-                        ),
-                        array(
-                            'name' => 'Flag',
-                            'slug' => 'flag',
-                            'type' => 'bool',
-                            'value' => true,
-                        ),
-                        array(
-                            'name' => 'CreationDateTime',
-                            'slug' => 'creationdatetime',
-                            'type' => 'datetime',
-                            'value' => '2014-10-06',
-                        ),
-                        array(
-                            'name' => 'Option',
-                            'slug' => 'option',
-                            'type' => 'enum',
-                            'value' => 'fisk',
-                        ),
-                    );
-                    
-                    $item = array(
-                        'name' => 'SubNode',
-                        'slug' => 'subnode',
-                        'type' => 'page',
-                        'icon' => 'file',
-                        'properties' => $properties,
-                    );
-
-                    $item2 = $item;
-                    $item2['subitems'] = array (
-                        $item,
-                        $item,
-                        $item,
-                    );
-
-                    $submenu[$i] = array(
-                        'name' => 'Node',
-                        'slug' => 'node',
-                        'type' => 'page',
-                        'icon' => 'file',
-                        'properties' => $properties,
-                        'subitems' => array(
-                            $item,
-                            $item2,
-                        ),
-                    );
-                }
-
+                $submenu = $testNodes;
                 break;
         }
 
@@ -121,5 +125,10 @@
                 echo json_encode($context_menu);
                 break;
         }
+
+    // Get content
+    } else if (get('getContent')) {
+        $id = get('getContextMenu');
+        echo json_encode($testNodes[$id]);
     }
 ?>
