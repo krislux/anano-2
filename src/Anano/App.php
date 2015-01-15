@@ -161,7 +161,14 @@ final class App
         }
         
         // Main output - this should be the only place to print anything during a normal execution.
-        print $response;
+        try
+        {
+            print $response;
+        }
+        catch (\ErrorException $e)
+        {
+            throw new \ErrorException('Unable to convert controller response to string. ' . __FILE__ . ' line ' . __LINE__);
+        }
         
         if ($response instanceof \Response)
         {

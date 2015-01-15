@@ -93,7 +93,7 @@ class Cms extends Controller
     
     function index()
     {
-        new CMS\Data\CmsModel('mtest');
+        //new CMS\Data\Document('mtest');
         return new View('cms/index');
     }
     
@@ -107,10 +107,27 @@ class Cms extends Controller
 
     function getContent($node_id)
     {
+        $doc = CMS\Data\Document::doctype('article');
+        return Response::json($doc);
+        
         $model = with(new Mtest)->find($node_id);
         return Response::json($model->toArray());
         
-        //return Response::json($this->getTestNodes()[$node_id]);    
+        //return Response::json($this->getTestNodes()[$node_id]);
+    }
+    
+    function getStructure($doctype)
+    {
+        if ($doctype = CMS\Data\Document::doctype($doctype))
+        {
+            return Response::json($doctype);
+        }
+    }
+    
+    function getDataTypes()
+    {
+        $data = CMS\Data\Document::datatypes();
+        return Response::json($data);
     }
 
     function menus($menu_id)

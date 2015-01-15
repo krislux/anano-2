@@ -72,6 +72,8 @@ abstract class Model extends QueryBuilder
     
     public function toArray()
     {
+        if (!is_array($this->fields)) return null;
+        
         $ar = array();
         foreach ($this->fields as $key => $val)
             $ar[$key] = $val;

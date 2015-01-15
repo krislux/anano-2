@@ -325,6 +325,22 @@ h3 {
     width: calc(100% - 40px);
 }
 
+    /* Kris test */
+    #content-body label {
+        display: block;
+        font-size: 130%;
+        margin-bottom: 5px;
+    }
+    #content-body .form-row {
+        display: block;
+        margin-bottom: 20px;
+    }
+    #content-body input, #content-body textarea {
+        border: 1px #ccc solid;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
 /* Properties */
 .content-property {
     margin-bottom: 40px;

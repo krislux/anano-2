@@ -1,3 +1,5 @@
+var datatypes;
+
 /*********************
  * Helper functions
  *********************/
@@ -106,7 +108,44 @@ function openContent(id) {
     closeContextMenu();
 
     $.ajax({
-        url: BASEDIR + '/cms/get_content/' + id,
+        url: BASEDIR + '/cms/getStructure/article',
+        type: 'GET',
+        success: function(structure) {
+            var output = document.getElementById('content-body');
+            // Clear the content
+            output.innerHTML = '';
+            var field, type, el, label, row;
+            
+            for (var i in structure.fields) {
+                field = structure.fields[i];
+                
+                // Retrieve the data type information from global variable. Needs some error handling if for some reason it doesn't exist.
+                type = datatypes[field['data-type']];
+                
+                // Create the input element from the data type information.
+                el = document.createElement(type['html-tag']);
+                el.setAttribute('name', i);
+                for (var j in type.attr) {
+                    el.setAttribute(j, type.attr[j]);
+                }
+                
+                // Create a row div just for styling.
+                row = document.createElement('div');
+                row.className = 'form-row';
+                // Create the text label
+                label = document.createElement('label');
+                label.appendChild(document.createTextNode(field['alias']));
+                // Append all the created elements to the content-body.
+                row.appendChild(label);
+                row.appendChild(el);
+                output.appendChild(row);
+            }
+            
+        }
+    });
+    
+    /*$.ajax({
+        url: BASEDIR + '/cms/getContent/' + id,
         cache: false,
         type: 'POST',
         data: {
@@ -124,7 +163,7 @@ function openContent(id) {
             
             setLoading(false);
         }
-    });
+    });*/
 }
 
 function toggleCheckbox(box) {
@@ -429,4 +468,8 @@ $(document).ready(function() {
     $('#content').click(function() {
         closeContextMenu();
     });
+    
+    $.get(BASEDIR + '/cms/getDataTypes', function(r) {
+        datatypes = r;
+    })
 });
