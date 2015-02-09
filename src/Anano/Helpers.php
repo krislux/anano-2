@@ -64,7 +64,19 @@ function url($url)
     {
         if ($url[0] !== '/')
             $url = '/' . $url;
-        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . App::root() . $url;
+        
+        if (isset($_SERVER['REQUEST_SCHEME']))
+        {
+            $scheme = $_SERVER['REQUEST_SCHEME'];
+        }
+        else
+        {
+            $scheme = 'http';
+            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'])
+                $scheme = 'https';
+        }
+        
+        $url = $scheme . '://' . $_SERVER['HTTP_HOST'] . App::root() . $url;
     }
     return $url;
 }
