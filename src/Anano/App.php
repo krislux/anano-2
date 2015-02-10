@@ -22,10 +22,11 @@ final class App
         
         if (Config::get('app.debug'))
         {
-            error_reporting(E_ALL);
-            ini_set('display_errors', 1);
+            @error_reporting(E_ALL);
+            @ini_set('display_errors', 1);
         }
         
+        // Stop information bleeding
         header_remove('X-Powered-By');
         date_default_timezone_set(Config::get('app.timezone'));
         
@@ -48,7 +49,7 @@ final class App
                     $connections[$key] = "$driver://$username:$password@$host/$database";
                 }
                 
-                $cfg->set_model_directory('app/models');
+                $cfg->set_model_directory(ROOT_DIR . '/app/models');
                 $cfg->set_connections($connections);
                 
                 $cfg->set_default_connection( Config::get('database.default') );
@@ -133,7 +134,7 @@ final class App
         return $url;
     }
     
-    public function __construct()
+    public function dispatch()
     {
         set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
             throw new \ErrorException($errstr, $errno, 0, $errfile, $errline);

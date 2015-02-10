@@ -41,7 +41,7 @@ body {
  
     <?php echo $viewContent; ?>
     <div id="dyn"></div>
-<?php echo new View("partials/footer"); ?>
+<?php echo new View("partials/footer", isset($data) ? $data : null); ?>
 </div>
 
 </body>

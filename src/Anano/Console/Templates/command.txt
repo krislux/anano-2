@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * This is the %CCCOMMAND% command file.
+ * Any method can be run from the command line with
+ *   php run %LCCOMMAND%:<methodname>
+ */
+
+class %CCCOMMAND%Command
+{
+    public function test(array $args)
+    {
+        /**
+         * $args contains any arguments passed to the command as an array.
+         */
+        
+        print_r($args);
+    }
+}

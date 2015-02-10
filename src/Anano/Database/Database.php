@@ -4,7 +4,7 @@ namespace Anano\Database;
 
 use Anano\Config;
 
-class Database
+class Database implements DatabaseInterface
 {
     protected $db;
     private $connName;
