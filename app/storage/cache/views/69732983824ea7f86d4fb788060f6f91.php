@@ -1,1 +1,0 @@
-<p style="border: 1px #ccc solid; padding: 1em;">Footer</p>

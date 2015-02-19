@@ -47,6 +47,9 @@ class MySql implements SerializerInterface
             if ($column->auto_increment)
                 $parts[] = 'AUTO_INCREMENT';
             
+            if ($column->comment)
+                $parts[] = "COMMENT '" . addslashes($column->comment) . "'";
+            
             if ($column->index !== false)
                 $table->indices[] = array($column->name, $column->index);
             
@@ -76,6 +79,9 @@ class MySql implements SerializerInterface
         }
         
         $sql .= "(\r\n". implode(",\r\n", $lines) ."\r\n)";
+        
+        if ($table->comment)
+            $sql .= "COMMENT='" . addslashes($table->comment) . "'\r\n";
         
         return $sql;
     }

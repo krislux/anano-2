@@ -27,11 +27,11 @@ class Template
         $buffer = preg_replace('/@approot([^\w]*)/', '<?php echo App::root(); ?>$1', $buffer);
         $buffer = preg_replace('/@token([^\w]*)/', '<?php echo token(); ?>$1', $buffer);
         
-        $buffer = preg_replace('/^[\s]*\@(extends|layout|master)[ \t]+([\w\.\/_-]+)[\s]*$/m', '<?php $this->setLayout("$2"); ?>', $buffer);
+        $buffer = preg_replace('/^[\s]*\@(extends|layout|master)[ \t]+([\w\.\/_-]+)[\s]*$/m', '<?php $this->setLayout("$2"); ?>' . "\r\n", $buffer);
         
-        $buffer = preg_replace('/^[\s]*\@(content|render|RenderBody)[\s]*$/m', '<?php echo $viewContent; ?>', $buffer);
+        $buffer = preg_replace('/^[\s]*\@(content|render|RenderBody)[\s]*$/m', '<?php echo $viewContent; ?>' . "\r\n", $buffer);
         
-        $buffer = preg_replace('/^[\s]*\@(include|partial)[ \t]+([\w\.\/_-]+)[\s]*$/m', '<?php echo new View("$2", isset($data) ? $data : null); ?>', $buffer);
+        $buffer = preg_replace('/^[\s]*\@(include|partial)[ \t]+([\w\.\/_-]+)[\s]*$/m', '<?php echo new View("$2", isset($data) ? $data : null); ?>' . "\r\n", $buffer);
         
         // Single-line executions with @
         $buffer = preg_replace_callback('/^[\s]*\@(.+)$/m', function($parts) {

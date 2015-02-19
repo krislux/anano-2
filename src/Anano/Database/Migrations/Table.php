@@ -3,6 +3,7 @@
 namespace Anano\Database\Migrations;
 
 use Anano\Database\DatabaseInterface;
+use Anano\Database\Migrations\Column;
 use Anano\Database\Migrations\Serializers\SerializerInterface;
 use ErrorException;
 
@@ -12,6 +13,7 @@ class Table
     private $database;
     
     public $name;
+    public $comment = false;
     public $columns = array();
     public $indices = array();
     
@@ -74,6 +76,23 @@ class Table
         return $column;
     }
     
+    
+    /**
+     * Specials / shorthands
+     */
+    
+    public function timestamps()
+    {
+        $this->dateTime('created_at');
+        $this->dateTime('updated_at')->default(null);
+    }
+    
+    public function comment($str)
+    {
+        $this->comment = $str;
+    }
+    
+    
     /**
      * Indices
      */
@@ -104,7 +123,7 @@ class Table
             }
             catch (\Exception $err)
             {
-                echo 'FAILED: ';
+                echo "FAILED: ({$err->getMessage()}) ";
             }
         }
         else
@@ -122,31 +141,25 @@ class Table
     
     private function _truncate()
     {
-        if (!$this->database)
-            throw new ErrorException('Truncate requires a database object.');
-        
         $sql = $this->serializer->truncate($this->name);
         try{
             return $this->database->query($sql);
         }
         catch (\Exception $err)
         {
-            echo 'FAILED: ';
+            echo "FAILED: ({$err->getMessage()}) ";
         }
     }
     
     private function _drop()
     {
-        if (!$this->database)
-            throw new ErrorException('Drop requires a database object.');
-        
         $sql = $this->serializer->drop($this->name);
         try{
             return $this->database->query($sql);
         }
         catch (\Exception $err)
         {
-            echo 'FAILED: ';
+            echo "FAILED: ({$err->getMessage()}) ";
         }
     }
     

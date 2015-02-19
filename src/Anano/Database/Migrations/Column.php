@@ -14,6 +14,7 @@ class Column
     public $nullable = false;
     public $zerofill = false;
     public $default = false;
+    public $comment = false;
     public $index = false;
     public $auto_increment = false;
     
@@ -42,6 +43,12 @@ class Column
     public function &zerofill()
     {
         $this->zerofill = true;
+        return $this;
+    }
+    
+    public function &comment($str)
+    {
+        $this->comment = $str;
         return $this;
     }
     

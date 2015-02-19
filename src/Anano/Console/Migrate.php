@@ -2,7 +2,7 @@
 
 namespace Anano\Console;
 
-use \Anano\Database\Migrations\Migration;
+use \Anano\Database\Migrations\MigrationInterface;
 
 class Migrate
 {
@@ -19,7 +19,7 @@ class Migrate
                 continue;
             
             $migration->up();
-            echo get_class($migration) . " up.";
+            echo get_class($migration) . " up.\r\n";
         }
         return "Done.";
     }
@@ -35,7 +35,7 @@ class Migrate
                 continue;
             
             $migration->down();
-            echo get_class($migration) . " down.";
+            echo get_class($migration) . " down.\r\n";
         }
         return "Done.";
     }
@@ -52,10 +52,10 @@ class Migrate
             
             $classname = get_class($migration);
             $migration->down();
-            echo get_class($migration) . " down.";
+            echo get_class($migration) . " down.\r\n";
             
             $migration->up();
-            echo get_class($migration) . " up.";
+            echo get_class($migration) . " up.\r\n";
         }
         return "Done.";
     }
@@ -95,7 +95,7 @@ class Migrate
             
             $class = new $classname;
             
-            if ($class instanceof Migration)
+            if ($class instanceof MigrationInterface)
             {
                 if (!isset($class->disabled) || !$class->disabled)
                 {

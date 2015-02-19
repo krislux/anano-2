@@ -4,6 +4,7 @@ namespace Anano;
 
 final class App
 {
+    private static $binds;
     private static $config;
     private static $profile_start;
     private static $current_route;
@@ -29,6 +30,8 @@ final class App
         // Stop information bleeding
         header_remove('X-Powered-By');
         date_default_timezone_set(Config::get('app.timezone'));
+        
+        self::$binds = Config::get('app.binds');
         
         $aliases = Config::get('aliases');
         foreach ($aliases as $key => $val)
@@ -81,8 +84,7 @@ final class App
     
     public static function make($alias, array $args=array())
     {
-        $binds = Config::get('app.binds');
-        $name = $binds[$alias];
+        $name = static::$binds[$alias];
         
         if (empty($args))
         {
@@ -92,6 +94,21 @@ final class App
         {
             $class = new \ReflectionClass($name);
             return $class->newInstanceArgs($args);
+        }
+    }
+    
+    public static function bind($alias, $class=null)
+    {
+        if (is_array($alias))
+        {
+            foreach ($alias as $key => $val)
+            {
+                static::$binds[$key] = $val;
+            }
+        }
+        else
+        {
+            static::$binds[$alias] = $class;
         }
     }
     
