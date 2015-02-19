@@ -1,6 +1,8 @@
 {
-    "name": "Anano 2",
-    "description": "Version 2 of the Anano framework, still optimized for performance but refactored for larger projects.",
+    "name": "amunium/anano",
+	"version": "2.0.10-dev",
+    "description": "MVC nano framework optimized for speed and light weight",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kris Lux",

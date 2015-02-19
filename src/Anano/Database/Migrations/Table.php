@@ -67,6 +67,16 @@ class Table
         return $column;
     }
     
+    public function &enum($name, array $options)
+    {
+        $column = new Column($name, 'enum', null, $options);
+        $this->columns[] = $column;
+        return $column;
+    }
+    
+    /**
+     * Indices
+     */
     
     public function index($cols)
     {
@@ -110,7 +120,7 @@ class Table
      * Cleanup functions
      */
     
-    public function truncate()
+    private function _truncate()
     {
         if (!$this->database)
             throw new ErrorException('Truncate requires a database object.');
@@ -125,7 +135,7 @@ class Table
         }
     }
     
-    public function drop()
+    private function _drop()
     {
         if (!$this->database)
             throw new ErrorException('Drop requires a database object.');
@@ -138,5 +148,29 @@ class Table
         {
             echo 'FAILED: ';
         }
+    }
+    
+    
+    /**
+     * Static shorthands
+     */
+    
+    public static function create($name, $serializer, $database, $callback)
+    {
+        $table = new static($name, $serializer, $database);
+        $callback($table);
+        $table->save();
+    }
+    
+    public static function truncate($name, $serializer, $database)
+    {
+        $table = new static($name, $serializer, $database);
+        $table->_truncate();
+    }
+    
+    public static function drop($name, $serializer, $database)
+    {
+        $table = new static($name, $serializer, $database);
+        $table->_drop();
     }
 }

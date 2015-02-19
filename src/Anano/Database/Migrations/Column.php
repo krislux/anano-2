@@ -9,6 +9,7 @@ class Column
     public $name;
     public $type;
     public $size;
+    public $data;
     public $unsigned = false;
     public $nullable = false;
     public $zerofill = false;
@@ -16,11 +17,12 @@ class Column
     public $index = false;
     public $auto_increment = false;
     
-    public function __construct($name, $type, $size=null)
+    public function __construct($name, $type, $size=null, $data=null)
     {
         $this->name = $name;
         $this->type = $type;
         $this->size = $size;
+        $this->data = $data;
     }
     
     public function &unsigned()

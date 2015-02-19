@@ -9,6 +9,12 @@ class MySql implements SerializerInterface
 {
     private $sql;
     
+    /**
+     * Converts a Table object into a CREATE statement for the relevant RDBMS, in this case MySQL.
+     * @param   Table   $table  Table object to serialize.
+     * @return  string          A valid SQL CREATE statement.
+     */
+    
     public function serialize(Table $table)
     {
         $sql = "CREATE TABLE `{$table->name}` \r\n";
@@ -18,9 +24,16 @@ class MySql implements SerializerInterface
         {
             $parts = array();
             
-            $parts[] = "`{$column->name}`";
-            
-            $parts[] = strtoupper($column->type) . ($column->size !== null ? "($column->size)" : '');
+            if ($column->type == 'enum')
+            {
+                $parts[] = "`{$column->name}`";
+                $parts[] = "ENUM('". implode("','", (array)$column->data) ."')";
+            }
+            else
+            {
+                $parts[] = "`{$column->name}`";
+                $parts[] = strtoupper($column->type) . ($column->size !== null ? "($column->size)" : '');
+            }
             
             if ($column->unsigned)
                 $parts[] = 'UNSIGNED';
@@ -28,7 +41,7 @@ class MySql implements SerializerInterface
             if ($column->zerofill)
                 $parts[] = 'ZEROFILL';
             
-            if ($column->nullable !== true)
+            if ($column->nullable !== true && $column->default !== null)
                 $parts[] = 'NOT NULL';
             
             if ($column->auto_increment)
@@ -40,12 +53,7 @@ class MySql implements SerializerInterface
             else if ($column->default !== false)
             {
                 if ($column->default === null)
-                {
-                    if (!$column->nullable)
-                        throw new ErrorException('Column default set to null but not nullable.');
-                    
                     $parts[] = 'DEFAULT NULL';
-                }
                 else if (strtolower($column->default) == 'now')
                     $parts[] = 'DEFAULT CURRENT_TIMESTAMP';
                 else
@@ -72,10 +80,18 @@ class MySql implements SerializerInterface
         return $sql;
     }
     
+    /**
+     * Serialize a TRUNCATE (or empty table) statement.
+     */
+    
     public function truncate($name)
     {
         return "TRUNCATE TABLE `$name`";
     }
+    
+    /**
+     * Serialize a DROP (or delete table) statement.
+     */
     
     public function drop($name)
     {

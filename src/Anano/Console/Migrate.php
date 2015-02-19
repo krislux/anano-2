@@ -8,44 +8,56 @@ class Migrate
 {
     const DIR = 'app/database/migrations/';
     
-    public function up()
+    public function up($args)
     {
+        $table = count($args) ? $args[0] : null;
         $migrations = $this->getMigrations();
         
         foreach ($migrations as $migration)
         {
-            $migration->up();
-            echo get_class($migration) . " up.\r\n";
-        }
-        echo "Done.\r\n";
-    }
-    
-    public function down()
-    {
-        $migrations = $this->getMigrations();
-        
-        foreach ($migrations as $migration)
-        {
-            $migration->down();
-            echo get_class($migration) . " down.\r\n";
-        }
-        echo "Done.\r\n";
-    }
-    
-    public function reload()
-    {
-        $migrations = $this->getMigrations();
-        
-        foreach ($migrations as $migration)
-        {
-            $classname = get_class($migration);
-            $migration->down();
-            echo get_class($migration) . " down.\r\n";
+            if ($table && $table != $migration->table)
+                continue;
             
             $migration->up();
-            echo get_class($migration) . " up.\r\n";
+            echo get_class($migration) . " up.";
         }
-        echo "Done.\r\n";
+        return "Done.";
+    }
+    
+    public function down($args)
+    {
+        $table = count($args) ? $args[0] : null;
+        $migrations = $this->getMigrations();
+        
+        foreach ($migrations as $migration)
+        {
+            if ($table && $table != $migration->table)
+                continue;
+            
+            $migration->down();
+            echo get_class($migration) . " down.";
+        }
+        return "Done.";
+    }
+    
+    public function reload($args)
+    {
+        $table = count($args) ? $args[0] : null;
+        $migrations = $this->getMigrations();
+        
+        foreach ($migrations as $migration)
+        {
+            if ($table && $table != $migration->table)
+                continue;
+            
+            $classname = get_class($migration);
+            $migration->down();
+            echo get_class($migration) . " down.";
+            
+            $migration->up();
+            echo get_class($migration) . " up.";
+        }
+        return "Done.";
     }
     
     public function make($args)
@@ -54,15 +66,15 @@ class Migrate
         {
             $table = strtolower($args[0]);
             $buffer = file_get_contents(__DIR__ . '/Templates/migrate_create.txt');
-            $buffer = str_replace('%CCTABLE%', ucfirst($table), $buffer);
+            $buffer = str_replace('%CCTABLE%', ucfirst(snake_to_camel($table)), $buffer);
             $buffer = str_replace('%LCTABLE%', $table, $buffer);
             
             file_put_contents(self::DIR . 'create_' . $table . '.php', $buffer);
             
-            echo "Done.\r\n";
+            return "Done.";
         }
         else
-            echo "Incorrect format. Use migrate:make <table>.\r\n";
+            return "Incorrect format. Use migrate:make <table>.";
     }
     
     private function getMigrations()

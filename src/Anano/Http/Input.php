@@ -11,6 +11,11 @@ abstract class Input
         return $default;
     }
     
+    public static function has($field)
+    {
+        return isset($_REQUEST[$field]);
+    }
+    
     public static function method()
     {
         return $_SERVER['REQUEST_METHOD'];

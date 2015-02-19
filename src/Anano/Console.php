@@ -31,13 +31,15 @@ class Console
             
             if (method_exists($class, $method))
             {
-                $class->$method( array_slice($args, 1) );
+                $rv = $class->$method( array_slice($args, 1) );
             }
             else
             {
                 echo "Command '$method' not found.\r\n";
                 return false;
             }
+            
+            echo $rv . "\r\n";
         }
         else if (count($command) == 1)
         {
@@ -61,7 +63,7 @@ class Console
     
     public function hash($input)
     {
-        echo \Anano\Crypto\Hash::make($input[0]) . "\r\n";
+        return \Anano\Crypto\Hash::make($input[0]);
     }
     
     public function clearcache()
@@ -71,6 +73,6 @@ class Console
             unlink($file);
         }
         
-        echo "Done.\r\n";
+        return "Done.";
     }
 }

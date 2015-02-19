@@ -12,14 +12,14 @@ class Create%CCTABLE% extends Migration
     
     public function up()
     {
-        $table = new Table($this->table, new MySql, new Database);
-        $table->index('id');
-        $table->save();
+        Table::create($this->table, new MySql, new Database, function($table)
+        {
+            $table->primary('id');
+        });
     }
     
     public function down()
     {
-        $table = new Table($this->table, new MySql, new Database);
-        $table->drop();
+        Table::drop($this->table, new MySql, new Database);
     }
 }

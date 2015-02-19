@@ -30,18 +30,17 @@ class Command
                 }
                 catch (\Exception $e)
                 {
-                    echo "Unable to create file. Run 'sudo install' to set permissions.\r\n";
-                    return false;
+                    return "Unable to create file. Run 'sudo install' to set permissions.";
                 }
                 
-                echo "$filepath created.\r\n";
+                return "$filepath created.";
             }
             else
             {
-                echo "Command file already exists.\r\n";
+                return "Command file already exists.";
             }
         }
         else
-            echo "Incorrect format. Use migrate:make <table>.\r\n";
+            return "Incorrect format. Use command:make <table>.";
     }
 }
