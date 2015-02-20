@@ -86,6 +86,10 @@ class Router
                         $response = $filter;
                 }
             }
+            else if (method_exists($class, '__call'))
+            {
+                $response = $class->$method($args);
+            }
         }
         
         if (!$response)

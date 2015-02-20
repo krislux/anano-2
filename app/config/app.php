@@ -52,8 +52,6 @@ return array(
     /**
      * The start and end tags for template code. You may wish to change these if you include e.g.
      * AngularJs, which uses the same tags. These also affect template comments.
-     *
-     * Remember to clear the view cache after changing these.
      */
     
     'template-tags' => array('{{', '}}'),

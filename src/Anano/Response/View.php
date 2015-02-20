@@ -5,6 +5,7 @@ namespace Anano\Response;
 class View extends Response {
     
     protected $layout;
+    protected static $shared_data = array();
     
     /**
      * @param   string  $file       View file (relative from /views folder, no extension) to load
@@ -14,6 +15,8 @@ class View extends Response {
     
     public function __construct($file, array $data=array(), $process=true)
     {
+        $data = array_merge(self::$shared_data, $data);
+        
         if ($process)
             $this->render($file, $data);
         else
@@ -23,6 +26,14 @@ class View extends Response {
     public static function make($file, array $data=array())
     {
         return new self($file, $data);
+    }
+    
+    public static function share($a, $b=null)
+    {
+        if (is_array($a))
+            self::$shared_data = array_merge(self::$shared_data, $a);
+        else
+            self::$shared_data[$a] = $b;
     }
     
     /**
