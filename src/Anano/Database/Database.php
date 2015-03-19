@@ -25,9 +25,10 @@ class Database implements DatabaseInterface
         if (!$this->connName) $this->connName = Config::get('database.default');
         
         extract(Config::get('database.connections.'. $this->connName));
+        $persistent = (bool)Config::get('database.persistent');
         
         $this->db = new \PDO("$driver:host=$host;dbname=$database;charset=$charset", $username, $password,
-            array(\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
+            array(\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => $persistent));
     }
     
     /**

@@ -2,12 +2,16 @@
 
 namespace Anano;
 
+use Anano\Config;
+
 final class App
 {
     private static $binds;
     private static $config;
     private static $profile_start;
     private static $current_route;
+    
+    private $content_type = 'text/html';
     
     /**
      * Initialises framework, including setting up autoloading.
@@ -30,9 +34,7 @@ final class App
         // Stop information bleeding
         header_remove('X-Powered-By');
         date_default_timezone_set(Config::get('app.timezone'));
-        
         self::$binds = Config::get('app.binds');
-        
         $aliases = Config::get('aliases');
         foreach ($aliases as $key => $val)
             class_alias($val, $key);
@@ -164,6 +166,11 @@ final class App
         {
             foreach ($response->getHeaders() as $key => $val)
             {
+                if ($key == 'Content-Type')
+                {
+                    $this->content_type = $val;
+                }
+                
                 if (is_array($val))
                 {
                     if ($val[0] === null)
@@ -201,13 +208,13 @@ final class App
     
     private function profile_output()
     {
-        if (Config::get('app.debug') && Config::get('app.profile'))
+        if ($this->content_type == 'text/html' && Config::get('app.debug') && Config::get('app.profile'))
         {
             $t1 = self::$profile_start;
             $t2 = microtime(true);
             
             echo "\r\n<!-- Profiling info. You can disable this in app/config/app.php -->\r\n";
-            echo '<div style="position: absolute; bottom: 10px; right: 10px; font-size: 9px; font-family: sans-serif;">';
+            echo '<div id="anano_profiler" style="position: absolute; bottom: 10px; right: 10px; font-size: 9px; font-family: sans-serif;">';
             echo round(($t2-$t1)*1000, 2) ,' ms &bull; ';
             echo round(memory_get_peak_usage(false) / 1024/1024, 2) ,' (', round(memory_get_peak_usage(true) / 1024/1024, 2) ,') MB';
             echo '</div>';

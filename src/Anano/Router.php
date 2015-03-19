@@ -30,7 +30,7 @@ class Router
             {
                 $args[$i] = $args[$i-1];
                 
-                if (!$args[$i])
+                if ($args[$i] === '')
                     unset($args[$i]);
             }
             
@@ -67,6 +67,7 @@ class Router
             $verb = strtolower($_SERVER['REQUEST_METHOD']);
             $restmethod = $verb . ucfirst($method);
             $args = $this->route['args'];
+            $method[0] = strtolower($method[0]);
             
             // Prioritise REST methods, i.e. getIndex, postSubmit, etc. Fall back to standard if not found.
             if (method_exists($class, $restmethod))

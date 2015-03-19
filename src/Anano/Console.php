@@ -46,7 +46,7 @@ class Console
             $command = $command[0];
             if (method_exists($this, $command))
             {
-                $this->{$command}( array_slice($args, 1) );
+                echo $this->{$command}( array_slice($args, 1) ) . "\r\n";
             }
             else
             {
@@ -74,5 +74,10 @@ class Console
         }
         
         return "Done.";
+    }
+    
+    public function hostname()
+    {
+        return hostname();
     }
 }

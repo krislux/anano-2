@@ -27,10 +27,10 @@ Available commands:
     migrate:make <name>
     
     command:make <name>
-    
     hash <password>
-    
     clearcache
+    hostname
 ======================================================================
+
 HEREDOC;
 }

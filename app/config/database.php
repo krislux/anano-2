@@ -17,6 +17,7 @@ return array(
             'password' => '',
             'database' => 'test',
             'charset'  => 'utf8',
+            'persistent' => true
         )
     ),
 );

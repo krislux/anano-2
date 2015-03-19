@@ -17,7 +17,7 @@ class MySql implements SerializerInterface
     
     public function serialize(Table $table)
     {
-        $sql = "CREATE TABLE `{$table->name}` \r\n";
+        $sql = "CREATE TABLE IF NOT EXISTS `{$table->name}` \r\n";
         
         $lines = array();
         foreach ($table->columns as $column)

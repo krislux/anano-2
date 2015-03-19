@@ -1,8 +1,8 @@
 #!/bin/sh -x
 mkdir -p app/storage/cache/views
-chmod 666 -R app/storage
+chmod 777 -R app/storage
 
 mkdir -p app/database/migrations
-chmod 666 -R app/database/
+chmod 777 -R app/database/
 
 chmod +x run
