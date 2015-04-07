@@ -37,6 +37,8 @@ abstract class Model extends QueryBuilder
     
     public function __set($name, $value)
     {
+        if(is_array($value))
+            dd($name);
         $this->fields[$name] = $value;
     }
     
@@ -92,11 +94,10 @@ abstract class Model extends QueryBuilder
         {
             if ($this->timestamps && array_key_exists('created_at', $this->fields))
                 $this->fields['created_at'] = date('Y-m-d H:i:s');
-            if ($this->timestamps && array_key_exists('updated_at', $this->fields))
-                $this->fields['updated_at'] = date('Y-m-d H:i:s');
             
-            if ($rv = $this->insert($this->fields))
-                $this->fields[$this->id_column] = $this->lastInsertId();
+            $rv = $this->insert($this->fields);
+            if ($rv !== false)
+                $this->fields[$this->id_column] = (int)$this->lastInsertId();
             return $rv;
         }
         

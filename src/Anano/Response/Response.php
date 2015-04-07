@@ -2,6 +2,8 @@
 
 namespace Anano\Response;
 
+use Anano\Http\Session;
+
 class Response
 {
     protected $value;
@@ -47,6 +49,17 @@ class Response
     public function clearHeaders()
     {
         $this->headers = array();
+    }
+    
+    
+    /**
+     * Attach data
+     */
+    
+    public function &flash($name, $message=null)
+    {
+        Session::flash($name, $message);
+        return $this;
     }
     
     

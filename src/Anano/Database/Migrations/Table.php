@@ -41,6 +41,13 @@ class Table
         return $column;
     }
     
+    public function &tinyInteger($name, $size=null)
+    {
+        $column = new Column($name, 'tinyint', $size);
+        $this->columns[] = $column;
+        return $column;
+    }
+    
     public function &string($name, $size=255)
     {
         $column = new Column($name, 'varchar', $size);

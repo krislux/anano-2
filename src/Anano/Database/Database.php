@@ -3,6 +3,8 @@
 namespace Anano\Database;
 
 use Anano\Config;
+use PDO;
+use PDOException;
 
 class Database implements DatabaseInterface
 {
@@ -25,10 +27,9 @@ class Database implements DatabaseInterface
         if (!$this->connName) $this->connName = Config::get('database.default');
         
         extract(Config::get('database.connections.'. $this->connName));
-        $persistent = (bool)Config::get('database.persistent');
         
-        $this->db = new \PDO("$driver:host=$host;dbname=$database;charset=$charset", $username, $password,
-            array(\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => $persistent));
+        $this->db = new PDO("$driver:host=$host;dbname=$database;charset=$charset", $username, $password,
+            array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => $persistent));
     }
     
     /**
@@ -48,7 +49,7 @@ class Database implements DatabaseInterface
      * @return  array
      */
     
-    public function query($sql, $fetch=\PDO::FETCH_ASSOC)
+    public function query($sql, $fetch=PDO::FETCH_ASSOC)
     {
         if ($this->db === null)
             $this->init();
@@ -56,7 +57,15 @@ class Database implements DatabaseInterface
         self::$query_log[] = $sql;
         
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll($fetch);
+        try
+        {
+            return $stmt->fetchAll($fetch);
+        }
+        catch (PDOException $e)
+        {
+            if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
+                return true;
+        }
     }
     
     /**
@@ -67,7 +76,7 @@ class Database implements DatabaseInterface
      * @return  array
      */
     
-    public function paramQuery($sql, $params, $fetch=\PDO::FETCH_ASSOC)
+    public function paramQuery($sql, $params, $fetch=PDO::FETCH_ASSOC)
     {
         if ($this->db === null)
             $this->init();
@@ -81,10 +90,12 @@ class Database implements DatabaseInterface
             $cnt = count($params);
             for ($i = 0; $i < $cnt; $i++)
             {
-                if (preg_match('/[\d]+/', $params[$i]))
-                    $type = \PDO::PARAM_INT;
+                if ($params[$i] === null)
+                    $type = PDO::PARAM_NULL;
+                else if (preg_match('/[\d]+/', $params[$i]))
+                    $type = PDO::PARAM_INT;
                 else
-                    $type = \PDO::PARAM_STR;
+                    $type = PDO::PARAM_STR;
                 
                 $stmt->bindValue($i+1, $params[$i], $type);
             }
@@ -94,7 +105,7 @@ class Database implements DatabaseInterface
                 {
                     return $stmt->fetchAll($fetch);
                 }
-                catch (\PDOException $e)
+                catch (PDOException $e)
                 {
                     if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
                         return true;
@@ -102,7 +113,7 @@ class Database implements DatabaseInterface
             }
             return false;
         }
-        catch (\PDOException $e)
+        catch (PDOException $e)
         {
             if ($e->getCode() == 42000 && Config::get('app.debug'))
                 die($e->getMessage() . "<p>$sql</p>");

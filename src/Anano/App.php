@@ -3,6 +3,9 @@
 namespace Anano;
 
 use Anano\Config;
+use Anano\Response\Response;
+use Anano\Http\Session;
+use ErrorException;
 
 final class App
 {
@@ -41,7 +44,7 @@ final class App
         
         $session = Config::get('app.session');
         if ($session)
-            \Session::start($session);
+            Session::start($session);
         
         // ActiveRecord set up if included.
         if (defined('PHP_ACTIVERECORD_VERSION_ID'))
@@ -156,13 +159,13 @@ final class App
     public function dispatch()
     {
         set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
-            throw new \ErrorException($errstr, $errno, 0, $errfile, $errline);
+            throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
         });
         
         $router = self::make('Router');
         $response = $router->run();
         
-        if($response instanceof \Response)
+        if($response instanceof Response)
         {
             foreach ($response->getHeaders() as $key => $val)
             {
@@ -190,20 +193,23 @@ final class App
         {
             print $response;
         }
-        catch (\ErrorException $e)
+        catch (ErrorException $e)
         {
-            throw new \ErrorException('Unable to convert controller response to string. ' . __FILE__ . ' line ' . __LINE__);
+            throw new ErrorException('Unable to convert controller response to string. ' . __FILE__ . ' line ' . __LINE__);
         }
         
-        if ($response instanceof \Response)
+        if ($response instanceof Response)
         {
             $response->after();
         }
         
-        if (!$response instanceof \Response || $response->getHeaders() === array())
+        if (!$response instanceof Response || $response->getHeaders() === array())
         {
             $this->profile_output();
         }
+        
+        if (Config::get('app.session'))
+            Session::end();
     }
     
     private function profile_output()
@@ -214,7 +220,7 @@ final class App
             $t2 = microtime(true);
             
             echo "\r\n<!-- Profiling info. You can disable this in app/config/app.php -->\r\n";
-            echo '<div id="anano_profiler" style="position: absolute; bottom: 10px; right: 10px; font-size: 9px; font-family: sans-serif;">';
+            echo '<div id="anano_profiler" style="position: fixed; bottom: 10px; right: 10px; font-size: 9px; font-family: sans-serif;">';
             echo round(($t2-$t1)*1000, 2) ,' ms &bull; ';
             echo round(memory_get_peak_usage(false) / 1024/1024, 2) ,' (', round(memory_get_peak_usage(true) / 1024/1024, 2) ,') MB';
             echo '</div>';

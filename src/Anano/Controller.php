@@ -10,15 +10,28 @@ abstract class Controller
      * Add a filter to a controller with optional conditions.
      * These will be tested during the routing phase.
      *
-     * @param   string  $filter         Name of the filter as defined in config/filters.php
+     * @param   mixed   $filter         Name of the filter as defined in config/filters.php - OR anonymous function.
      * @param   array   $conditions     Optional list of conditions in which to apply the filter.
      * @param   array   $data           Any other configuration data the filter might need.
      */
     
     protected function filter($filter, $conditions=array(), $data=array())
     {
-        $this->filters[$filter] = array(
-            'function' => Config::get('filters.' . $filter),
+        static $i = 0;
+        
+        if (is_callable($filter))
+        {
+            $func = $filter;
+            $name = ++$i;
+        }
+        else
+        {
+            $func = Config::get('filters.' . $filter);
+            $name = $filter;
+        }
+        
+        $this->filters[$name] = array(
+            'function' => $func,
             'conditions' => $conditions + array('on' => null, 'only' => null, 'except' => null),
             'data' => $data
         );

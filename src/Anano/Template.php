@@ -23,7 +23,7 @@ class Template
         $tags = Config::get('app.template-tags');
         
         // Replace rooted URLs with correctly rooted URLs, even when site is in subfolders.
-        $buffer = preg_replace('/((href|src|action)=[\"\'])\/([^\/^\'\"]+)/', '$1<?php echo App::root(); ?>/$3', $buffer);
+        $buffer = preg_replace('/((href|src|action)=[\"\'])\/([^\/^\'\"]*)/', '$1<?php echo App::root(); ?>/$3', $buffer);
         $buffer = preg_replace('/@approot([^\w]*)/', '<?php echo App::root(); ?>$1', $buffer);
         $buffer = preg_replace('/@token([^\w]*)/', '<?php echo token(); ?>$1', $buffer);
         
@@ -44,7 +44,7 @@ class Template
         // Echo code
         $buffer = preg_replace_callback('/'. $tags[0] .'(.*?)'. $tags[1] .'/s', function($parts) {
             $part = trim($parts[1], " \t;");
-            if (preg_match('/^(\$[\w]+)[ \t]+(or|\|)[ \t]+(.*)$/', $part, $matches))
+            if (preg_match('/^(\$[\w\-_>\[\]\']+)[ \t]+(or|\|)[ \t]+(.*)$/', $part, $matches))
                 return "<?php echo isset({$matches[1]}) ? {$matches[1]} : {$matches[3]}; ?>";
             return '<?php echo '. $part .'; ?>';
         }, $buffer);

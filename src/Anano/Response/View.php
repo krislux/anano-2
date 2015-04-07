@@ -2,6 +2,8 @@
 
 namespace Anano\Response;
 
+use Anano\Config;
+
 class View extends Response {
     
     protected $layout;
@@ -57,7 +59,7 @@ class View extends Response {
         $cache = $cachedir . $token . ".php";
         $source = ROOT_DIR . "/app/views/$file.php";
         
-        $debug = \Config::get('app.debug');
+        $debug = Config::get('app.debug');
         
         if (!file_exists($cache) || filemtime($cache) < filemtime($source) || $debug)
         {
