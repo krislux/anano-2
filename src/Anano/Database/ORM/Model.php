@@ -35,6 +35,16 @@ abstract class Model extends QueryBuilder
         }
     }
     
+    public function describe()
+    {
+        static $table;
+        if (!$table)
+        {
+            $table = parent::describe();
+        }
+        return $table;
+    }
+    
     public function __set($name, $value)
     {
         if(is_array($value))

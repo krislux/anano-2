@@ -51,6 +51,8 @@ class Database implements DatabaseInterface
     
     public function query($sql, $fetch=PDO::FETCH_ASSOC)
     {
+        $rv = false;
+        
         if ($this->db === null)
             $this->init();
         
@@ -59,13 +61,16 @@ class Database implements DatabaseInterface
         $stmt = $this->db->query($sql);
         try
         {
-            return $stmt->fetchAll($fetch);
+            $rv = $stmt->fetchAll($fetch);
         }
         catch (PDOException $e)
         {
             if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
-                return true;
+                $rv = true;
         }
+        
+        $stmt->closeCursor();
+        return $rv;
     }
     
     /**
@@ -78,6 +83,8 @@ class Database implements DatabaseInterface
     
     public function paramQuery($sql, $params, $fetch=PDO::FETCH_ASSOC)
     {
+        $rv = false;
+        
         if ($this->db === null)
             $this->init();
         
@@ -103,15 +110,17 @@ class Database implements DatabaseInterface
             {
                 try
                 {
-                    return $stmt->fetchAll($fetch);
+                    $rv = $stmt->fetchAll($fetch);
                 }
                 catch (PDOException $e)
                 {
                     if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
-                        return true;
+                        $rv = true;
                 }
             }
-            return false;
+            
+            $stmt->closeCursor();
+            return $rv;
         }
         catch (PDOException $e)
         {

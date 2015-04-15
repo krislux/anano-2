@@ -222,7 +222,8 @@ final class App
             echo "\r\n<!-- Profiling info. You can disable this in app/config/app.php -->\r\n";
             echo '<div id="anano_profiler" style="position: fixed; bottom: 10px; right: 10px; font-size: 9px; font-family: sans-serif;">';
             echo round(($t2-$t1)*1000, 2) ,' ms &bull; ';
-            echo round(memory_get_peak_usage(false) / 1024/1024, 2) ,' (', round(memory_get_peak_usage(true) / 1024/1024, 2) ,') MB';
+            echo round(memory_get_peak_usage(false) / 1024/1024, 2) ,' (', round(memory_get_peak_usage(true) / 1024/1024, 2) ,') MB &bull; ';
+            echo count((new \Anano\Database\Database)->getQueryLog()) . ' queries';
             echo '</div>';
         }
     }
