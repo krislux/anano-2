@@ -23,7 +23,7 @@ class Template
         $tags = Config::get('app.template-tags');
         
         // Replace rooted URLs with correctly rooted URLs, even when site is in subfolders.
-        $buffer = preg_replace('/((href|src|action)=[\"\'])\/([^\/^\'\"]*)/', '$1<?php echo App::root(); ?>/$3', $buffer);
+        $buffer = preg_replace('/((href|src|action)=(\"|\'))\/([^\'\"]*)(\"|\')/', '$1<?php echo App::root(); ?>/$4$5', $buffer);
         $buffer = preg_replace('/@approot([^\w]*)/', '<?php echo App::root(); ?>$1', $buffer);
         $buffer = preg_replace('/@token([^\w]*)/', '<?php echo token(); ?>$1', $buffer);
         

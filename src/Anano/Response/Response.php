@@ -35,10 +35,11 @@ class Response
     public function after() {}
     
     
-    public function setHeaders(array $headers)
+    public function &setHeaders(array $headers)
     {
         foreach ($headers as $key => $val)
             $this->headers[$key] = $val;
+        return $this;
     }
     
     public function getHeaders()
@@ -66,6 +67,11 @@ class Response
     /**
      * Types
      */
+    
+    public static function raw($data)
+    {
+        return new self($data);
+    }
     
     public static function html($data)
     {

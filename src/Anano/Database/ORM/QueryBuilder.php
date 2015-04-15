@@ -53,7 +53,10 @@ class QueryBuilder extends \Anano\Database\Database
                 if ($where[2] === null)
                 {
                     $temp[] = self::tick_words($where[0]) . ' IS NULL';
-                    $placeholders[] = '';
+                }
+                elseif ($where[2] === false)
+                {
+                    $temp[] = self::tick_words($where[0]) . $where[1];
                 }
                 else
                 {
@@ -144,7 +147,10 @@ class QueryBuilder extends \Anano\Database\Database
             if ($where[2] === null)
             {
                 $temp[] = self::tick_words($where[0]) . ' IS NULL';
-                $placeholders[] = '';
+            }
+            elseif ($where[2] === false)
+            {
+                $temp[] = self::tick_words($where[0]) . $where[1];
             }
             else
             {
@@ -418,6 +424,18 @@ class QueryBuilder extends \Anano\Database\Database
     public function orWhere($var1, $mode, $var2)
     {
         $this->query['orWhere'][] = array($var1, $mode, $var2);
+        return $this;
+    }
+    
+    public function whereNull($var1)
+    {
+        $this->query['where'][] = array($var1, ' IS NULL', false);
+        return $this;
+    }
+    
+    public function whereNotNull($var1)
+    {
+        $this->query['where'][] = array($var1, ' IS NOT NULL', false);
         return $this;
     }
     

@@ -94,3 +94,27 @@ function hostname()
         $hostname = strtolower( gethostname() ?: getenv('COMPUTERNAME') );
     return $hostname;
 }
+
+/**
+ * Small helper for menus. Prints a certain class if the current URL begins
+ * with the supplied string. Use: <a href="/test" class="{{ activeClass('test') }}"></a>
+ *
+ * @param   string  $url        Check if current URL begins with this.
+ * @param   string  $classname  The string to print, usually a class.
+ * @param   bool    $print_html Whether to also print `class=""`. Not useful for elements with multiple classes.
+ */
+
+function activeClass($url, $classname='active', $print_html=false)
+{
+    $route = \Anano\App::current() . '/';
+    $url .= '/';
+    if ($url[0] !== '/')
+        $url = '/' . $url;
+    if ($url == $route || strpos($route, $url . '/') === 0)
+    {
+        if ($print_html)
+            return 'class="'. $classname .'"';
+        return $classname;
+    }
+    return '';
+}

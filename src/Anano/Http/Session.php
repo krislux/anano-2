@@ -10,7 +10,7 @@ abstract class Session
     public static function start($name)
     {
         // Set cookie to httponly
-        session_set_cookie_params(1440,
+        session_set_cookie_params(3600,
             ini_get('session.cookie_path'),
             ini_get('session.cookie_domain'),
             isset($_SERVER['HTTPS']),

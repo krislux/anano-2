@@ -11,6 +11,11 @@ abstract class Cookie
         return $default;
     }
     
+    public static function has($field)
+    {
+        return isset($_COOKIE[$field]);
+    }
+    
     public static function put($field, $value, $expire=null, $secure=false, $http_only=true)
     {
         if (headers_sent())
