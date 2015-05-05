@@ -80,8 +80,13 @@ class MySql implements SerializerInterface
         
         $sql .= "(\r\n". implode(",\r\n", $lines) ."\r\n)";
         
+        // @todo Should be overridable in the Table class.
+        $sql .= "ENGINE=InnoDB DEFAULT CHARSET=utf8 ";
+        
         if ($table->comment)
             $sql .= "COMMENT='" . addslashes($table->comment) . "'\r\n";
+        
+        $sql .= ';';
         
         return $sql;
     }

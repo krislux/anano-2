@@ -102,6 +102,11 @@ class Response
     
     public static function redirect($location, $code=303)
     {
+        // Convert international domain names to ansi versions, as redirect header doesn't support IDN.
+        $location = explode('?', $location, 2);
+        $location[0] = idn_to_ascii($location[0]);
+        $location = implode('?', $location);
+        
         $headers = array('Location' => array( url($location), $code));
         return new self('', $headers);
     }

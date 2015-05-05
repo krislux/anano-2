@@ -28,8 +28,24 @@ class Database implements DatabaseInterface
         
         extract(Config::get('database.connections.'. $this->connName));
         
-        $this->db = new PDO("$driver:host=$host;dbname=$database;charset=$charset", $username, $password,
-            array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => $persistent));
+        $connstr = "$driver:host=$host;dbname=$database;charset=$charset";
+        try
+        {
+            $this->db = new PDO($connstr, $username, $password,
+                array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => $persistent));
+        }
+        catch (PDOException $e)
+        {
+            // Connection aborted. Strange error that may be caused by persistent connection.
+            if ($e->getCode() == 10053)
+            {
+                // Attempt same connection without persistent as a fallback.
+                $this->db = new PDO($connstr, $username, $password,
+                    array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_PERSISTENT => false));
+            }
+            else
+                throw $e;
+        }
     }
     
     /**
@@ -58,15 +74,18 @@ class Database implements DatabaseInterface
         
         self::$query_log[] = $sql;
         
-        $stmt = $this->db->query($sql);
+        
         try
         {
+            $stmt = $this->db->query($sql);
             $rv = $stmt->fetchAll($fetch);
         }
         catch (PDOException $e)
         {
             if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
                 $rv = true;
+            else
+                throw new PDOException( $e->getMessage() . ". Query: " . $sql, $e->getCode() );
         }
         
         $stmt->closeCursor();
