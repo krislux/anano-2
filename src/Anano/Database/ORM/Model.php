@@ -2,6 +2,8 @@
 
 namespace Anano\Database\ORM;
 
+use Exception;
+
 abstract class Model extends QueryBuilder
 {
     public $table_name;         // Table name, defaults to plural form of lowercase class name.
@@ -48,7 +50,7 @@ abstract class Model extends QueryBuilder
     public function __set($name, $value)
     {
         if(is_array($value))
-            dd($name);
+            throw new Exception('Flat data expected, array given.');
         $this->fields[$name] = $value;
     }
     
@@ -77,10 +79,43 @@ abstract class Model extends QueryBuilder
         return $model;
     }
     
+    /**
+     * Return a model instance from an id.
+     */
+    
     public static function find($id)
     {
         return new static($id);
     }
+    
+    /**
+     * Return an indexed field from a set of results instead of associative.
+     * Useful for function statements like COUNT(), where you can't use the magic method unless you alias it.
+     */
+    
+    public function field($index)
+    {
+        $fields = array_values($this->fields);
+        return $fields[$index];
+    }
+    
+    /**
+     * Set fields as associative array instead of individually.
+     */
+    
+    public function &data(array $arr)
+    {
+        foreach ($arr as $key => $val)
+        {
+            $this->fields[$key] = $val;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Convert a model instance to a simple associative array.
+     */
     
     public function toArray()
     {

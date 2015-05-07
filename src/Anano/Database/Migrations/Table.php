@@ -55,9 +55,30 @@ class Table
         return $column;
     }
     
+    public function &fixedString($name, $size)
+    {
+        $column = new Column($name, 'char', $size);
+        $this->columns[] = $column;
+        return $column;
+    }
+    
     public function &text($name)
     {
         $column = new Column($name, 'text');
+        $this->columns[] = $column;
+        return $column;
+    }
+    
+    public function &binary($name, $size=255)
+    {
+        $column = new Column($name, 'varbinary', $size);
+        $this->columns[] = $column;
+        return $column;
+    }
+    
+    public function &fixedBinary($name, $size)
+    {
+        $column = new Column($name, 'binary', $size);
         $this->columns[] = $column;
         return $column;
     }

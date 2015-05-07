@@ -91,7 +91,13 @@ class QueryBuilder extends \Anano\Database\Database
             $temp = array();
             foreach ($this->query['orderBy'] as $order)
             {
-                $temp[] = self::tick_words($order[0]) . ' ' . strtoupper($order[1]);
+                $col = preg_replace('/[^\w\.]/', '', $order[0]);
+                $dir = strtoupper($order[1]);
+                
+                if (!in_array($dir, array('ASC', 'DESC')))
+                    throw new \ErrorException("Incorrect direction value '$dir'");
+                
+                $temp[] = self::tick_words($col) . ' ' . $dir;
             }
             $parts[] = 'ORDER BY ' . implode(', ', $temp);
         }
@@ -299,6 +305,12 @@ class QueryBuilder extends \Anano\Database\Database
         if (is_array($set))
             return current($set);
         return $set;
+    }
+    
+    public function count()
+    {
+        $set = $this->select('COUNT(*)')->first();
+        return $set->field(0);
     }
     
     public function update(array $fields)

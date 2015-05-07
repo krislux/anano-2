@@ -83,9 +83,14 @@ class Database implements DatabaseInterface
         catch (PDOException $e)
         {
             if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
+            {
                 $rv = true;
+            }
             else
-                throw new PDOException( $e->getMessage() . ". Query: " . $sql, $e->getCode() );
+            {
+                // @todo    PDOExceptions return strings as getCode() but cannot accept them in the constructor. Find better solution.
+                throw new PDOException( $e->getMessage() . ". Query: " . $sql );
+            }
         }
         
         $stmt->closeCursor();
@@ -170,5 +175,15 @@ class Database implements DatabaseInterface
     protected function lastInsertId()
     {
         return $this->db->lastInsertId();
+    }
+    
+    protected function escape($str)
+    {
+        return $this->db->quote($str);
+    }
+    
+    public function affectedRows()
+    {
+        return $this->db->rowCount();
     }
 }

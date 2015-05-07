@@ -18,6 +18,8 @@ class Response
     
     public function __toString()
     {
+        if (is_numeric($this->value))
+            return (string)$this->value;
         return $this->value;
     }
     
