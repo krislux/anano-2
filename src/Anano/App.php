@@ -156,7 +156,7 @@ final class App
         return $url;
     }
     
-    public function dispatch()
+    public function run()
     {
         set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) {
             throw new ErrorException($errstr, $errno, 0, $errfile, $errline);

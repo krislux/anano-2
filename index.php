@@ -14,4 +14,4 @@ define('STORAGE_DIR', __DIR__ . '/app/storage');
 require __DIR__ . '/vendor/autoload.php';
 
 $app = Anano\App::init();
-$app->dispatch();
+$app->run();

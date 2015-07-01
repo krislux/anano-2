@@ -2,7 +2,9 @@
 
 namespace Anano\Response;
 
+use ErrorException;
 use Anano\Config;
+use Anano\Template;
 
 class View extends Response {
     
@@ -53,7 +55,7 @@ class View extends Response {
             mkdir($cachedir, 666, true);
         
         if (!is_writable($cachedir))
-            throw new \ErrorException('Please make sure /app/storage and all subfolders are configured for writing');
+            throw new ErrorException('Please make sure /app/storage and all subfolders are configured for writing');
         
         $token = md5($file);
         $cache = $cachedir . $token . ".php";
@@ -65,7 +67,7 @@ class View extends Response {
         {
             $buffer = file_get_contents($source);
             
-            $template = new \Template($buffer);
+            $template = new Template($buffer);
             $buffer = $template->process();
             
             file_put_contents($cache, $buffer);

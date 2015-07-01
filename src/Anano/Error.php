@@ -2,6 +2,9 @@
 
 namespace Anano;
 
+use ErrorException;
+use Anano\Response\View;
+
 class Error
 {
     /**
@@ -30,7 +33,7 @@ class Error
                 }
             }
             
-            throw new \ErrorException('Error route or file does not exist.');
+            throw new ErrorException('Error route or file does not exist.');
         }
         else
         {
@@ -44,7 +47,7 @@ class Error
                 405 => 'Method Not Allowed',
             );
             
-            $response = new \View($err);
+            $response = new View($err);
             $response->setHeaders(array("HTTP/1.0 $errno {$status[$errno]}" => array(null, $errno)));
             return $response;
         }
