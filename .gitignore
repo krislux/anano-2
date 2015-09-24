@@ -1,7 +1,6 @@
 /app/storage
 /wiki
 /vendor
-/composer.lock
 
 ### KomodoEdit ###
 *.komodoproject

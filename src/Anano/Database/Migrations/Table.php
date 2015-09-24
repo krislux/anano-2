@@ -90,6 +90,13 @@ class Table
         return $column;
     }
     
+    public function &date($name)
+    {
+        $column = new Column($name, 'date');
+        $this->columns[] = $column;
+        return $column;
+    }
+    
     public function &decimal($name, $size, $decimals=2)
     {
         $column = new Column($name, 'decimal', $size . ',' . $decimals);
