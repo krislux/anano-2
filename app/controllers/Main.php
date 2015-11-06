@@ -1,44 +1,74 @@
 <?php
 
+use Anano\Http\Curl;
+
 class Main extends Controller
 {
     /**
      * You can use the constructor to add filters to the entire controller class.
      * Filters must evaluate TRUE for the controller to run. You can view and add filters in config/filters.php
-     * 
+     *
      * To only filter some routes, you can pass the filter function an array as the second parameter containing
      * any or all of the keys 'on', containing http verbs, or 'only' and 'except' containing method names.
      */
-    
+
     function __construct()
     {
-        $this->filter('csrf', array('on' => 'POST'));
+        $this->filter('csrf', ['on' => 'POST']);
+        $this->filter('auth', ['except' => ['getLogin', 'postLogin']]);
     }
-    
-    /**
-     * Main entrypoint to your app. Responds to all HTTP verbs.
-     */
-    
+
+    function getLogin()
+    {
+        return new View('login');
+    }
+
+    function postLogin()
+    {
+        // Replace with something proper.
+        if (
+            strtolower(Input::get('username')) == 'admin'
+         && Input::get('password') == '1234')
+        {
+            Session::put('userid', 1);
+            return Response::redirect('/list');
+        }
+
+        return new View('login', ['invalid' => true]);
+    }
+
     function index()
     {
-        return new View('home', array('title' => 'Anano'));
+        return new View('home', array('title' => 'Home'));
     }
-    
-    /**
-     * Test REST-controller. Responds only to 'GET' HTTP verb. Can take arguments, but does not require them.
-     */
-    
-    function getTest($arg1=null, $arg2=null)
+
+    function getList()
     {
-        return View::make('home');  // Same as new View
+        $players = json_decode( $this->server('getData') );
+
+        return new View('list', array(
+            'players' => $players,
+            'title' => 'Liste'
+        ));
     }
-    
-    /**
-     * Test REST-controller. Responds only to 'POST' HTTP verb. Requires an argument and returns 404 if not provided.
-     */
-    
-    function postTest($arg1)
+
+    function getLogout()
     {
-        return Response::json( array('data' => Input::get('string')) );
+        Session::forget('userid');
+        return Response::redirect('/login');
     }
+
+    function server($method, $data = array())
+    {
+        $base_url = 'http://localhost:8080/';
+
+        $curl = new Curl;
+        $buffer = $curl->get($base_url . $method, $data);
+
+        if ( ! $buffer)
+            die('Unable to reach server. Should use cached copy.');
+
+        return Response::raw($buffer, 'application/json');
+    }
+
 }

@@ -1,6 +1,9 @@
-{{-- This tells the view which file to use as master layout --}}
 @extends layouts/master
 
-<h1>Welcome</h1>
+<div class="container">
 
-<p>This is the default view.</p>
+    <h1>Spillere</h1>
+
+    <button id="get-players">Hent spillerliste</button>
+
+</div>
