@@ -3,10 +3,15 @@
 /**
  * Password hasher and verifier.
  *
- * For PHP 5.5 and above it will use the excellent password_hash function with strong salt.
- * For versions below, it will fall back to a custom crypt() call that is only forwards
- * compatible - that is, you can verify old-version passwords with new version, but not vice versa.
+ * For PHP 5.5 and above it will use the excellent blowfish encryption. For 5.4.* and below it
+ * will fall back to the much worse crypt() function with random salt.
  *
+ * In an attempt to make it slightly more secure, the fallback hash double-encrypts the password,
+ * including both a crypt and a crypt of the SHA1 of the password. But I'm no cryptographer, I
+ * honestly don't know how much difference it makes.
+ *
+ * Remember when porting the site that passwords generated on PHP <=5.4 will not work on >=5.5
+ * and vice versa.
  */
 
 namespace Anano\Crypto;
@@ -21,11 +26,11 @@ class Hash
         }
         else
         {
-            $salt = '$2a$10$' . substr( md5(microtime(true)) , 0, 22);
-            return crypt($password, $salt);
+            $salt = substr( md5(microtime(true)) , 0, 16);
+            return self::hash($password, $salt);
         }
     }
-
+    
     public static function verify($password, $hash)
     {
         if (function_exists('password_hash'))
@@ -34,8 +39,14 @@ class Hash
         }
         else
         {
-            $salt = '$2a$10$' . substr($hash, 7, 22);
-            return $hash === crypt($password, $salt);
+            $salt = substr($hash, 0, 16);
+            return $hash === self::hash($password, $salt);
         }
+    }
+    
+    private static function hash($password, $salt)
+    {
+        $hash = crypt($password, $salt) . crypt(sha1($password . $salt), $salt);
+        return $salt.$hash;
     }
 }
