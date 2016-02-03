@@ -19,7 +19,7 @@ class FileCache implements CacheInterface
         if( ! is_writable(ROOT_DIR . self::DIR) )
         {
             mkdir(ROOT_DIR . self::DIR);
-            chmod(ROOT_DIR . self::DIR, 755);
+            chmod(ROOT_DIR . self::DIR, 0777);
         }
 
         $this->compress = $compress;

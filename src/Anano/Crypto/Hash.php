@@ -7,6 +7,10 @@
  * For versions below, it will fall back to a custom crypt() call that is only forwards
  * compatible - that is, you can verify old-version passwords with new version, but not vice versa.
  *
+ * Seems the salt length varies in password_hash, though the specs state they should be 22 chars.
+ * I'm probably missing something, so feel free to fix.
+ *
+ * Password length will always be 60 single byte characters.
  */
 
 namespace Anano\Crypto;

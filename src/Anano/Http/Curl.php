@@ -59,6 +59,13 @@ class Curl
         return $this;
     }
 
+    public function info($opt = 0)
+    {
+        if ($opt)
+            return curl_getinfo($this->curl, $opt);
+        return curl_getinfo($this->curl);
+    }
+
     public function close()
     {
         curl_close($this->curl);

@@ -71,7 +71,7 @@ class View extends Response {
         $cachedir = ROOT_DIR ."/app/storage/cache/views/";
 
         if ( ! is_dir($cachedir))
-            mkdir($cachedir, 666, true);
+            mkdir($cachedir, 0666, true);
 
         if ( ! is_writable($cachedir))
             throw new ErrorException('Please make sure /app/storage and all subfolders are configured for writing');
