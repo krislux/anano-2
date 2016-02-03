@@ -1,6 +1,6 @@
 <?php
 
-class Main extends Controller
+class MainController extends Controller
 {
     /**
      * You can use the constructor to add filters to the entire controller class.
