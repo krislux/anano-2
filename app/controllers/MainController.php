@@ -40,10 +40,9 @@ class MainController extends Controller
     function postTest($arg1)
     {
         $this->validate([
-            'email'    => 'required|email',
-            'password' => 'required|min:4'
+            'string' => 'required|max:255'
         ], function($err) {
-            return Response::redirect('/')->flash('errors', $err);
+            return Response::json(['errors' => $err]);
         });
 
         return Response::json( array('data' => Input::get('string')) );
