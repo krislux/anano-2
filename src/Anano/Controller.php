@@ -4,6 +4,8 @@ namespace Anano;
 
 abstract class Controller
 {
+    use Security\Validation\ValidatorTrait;
+
     protected $filters;
 
     /**

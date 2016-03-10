@@ -13,7 +13,7 @@
  * Password length will always be 60 single byte characters.
  */
 
-namespace Anano\Crypto;
+namespace Anano\Security;
 
 class Hash
 {

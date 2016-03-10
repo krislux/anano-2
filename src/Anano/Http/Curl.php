@@ -10,15 +10,13 @@ class Curl
 {
     private $curl;
 
-    const USER_AGENT = '';
-
-    public function __construct()
+    public function __construct($user_agent = '')
     {
         if (!extension_loaded('curl'))
             throw new \Exception('cURL not loaded.');
 
         $this->curl = curl_init();
-        $this->setopt(CURLOPT_USERAGENT, self::USER_AGENT);
+        $this->setopt(CURLOPT_USERAGENT, $user_agent);
         $this->setopt(CURLOPT_RETURNTRANSFER, true);
         $this->setopt(CURLINFO_HEADER_OUT, true);
     }

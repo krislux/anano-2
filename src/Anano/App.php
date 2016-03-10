@@ -167,6 +167,11 @@ final class App
         $router = self::make('Router');
         $response = $router->run();
 
+        $this->end($response);
+    }
+
+    public function end($response = null)
+    {
         if($response instanceof Response)
         {
             foreach ($response->getHeaders() as $key => $val)
@@ -212,6 +217,8 @@ final class App
 
         if (Config::get('app.session'))
             Session::end();
+
+        exit;
     }
 
     private function profile_output()

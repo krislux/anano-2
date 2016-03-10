@@ -7,12 +7,12 @@ class Console
     public function __construct($args)
     {
         $command = explode(':', $args[0]);
-        
+
         if (count($command) == 2)
         {
             list($classname, $method) = $command;
             $classname = ucfirst($classname);
-            
+
             $internal_path = "\\Anano\\Console\\$classname";
             if(class_exists($internal_path))
             {
@@ -28,7 +28,7 @@ class Console
                     $class = new $classname;
                 }
             }
-            
+
             if (method_exists($class, $method))
             {
                 $rv = $class->$method( array_slice($args, 1) );
@@ -38,7 +38,7 @@ class Console
                 echo "Command '$method' not found.\r\n";
                 return false;
             }
-            
+
             echo $rv . "\r\n";
         }
         else if (count($command) == 1)
@@ -60,22 +60,22 @@ class Console
             return false;
         }
     }
-    
+
     public function hash($input)
     {
-        return \Anano\Crypto\Hash::make($input[0]);
+        return \Anano\Security\Hash::make($input[0]);
     }
-    
+
     public function clearcache()
     {
         foreach (glob('app/storage/cache/views/*.php') as $file)
         {
             unlink($file);
         }
-        
+
         return "Done.";
     }
-    
+
     public function hostname()
     {
         return hostname();

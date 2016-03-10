@@ -12,7 +12,7 @@ return array(
     'Response' => 'Anano\Response\Response',
     'View' => 'Anano\Response\View',
     'Template' => 'Anano\Template',
-    'Hash' => 'Anano\Crypto\Hash',
+    'Hash' => 'Anano\Security\Hash',
     'Input' => 'Anano\Http\Input',
     'Session' => 'Anano\Http\Session',
     'Model' => 'Anano\Database\ORM\Model',
