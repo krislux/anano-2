@@ -180,6 +180,12 @@ class Validator
         return preg_match('/^[0-9\.,]*$/', $subject);
     }
 
+    // String must only contain alphanumeric English characters.
+    public function validateAlpha($subject)
+    {
+        return preg_match('/^[0-9a-z]*$/', $subject);
+    }
+
     // String must only contain hexadecimal characters.
     public function validateHex($subject)
     {
