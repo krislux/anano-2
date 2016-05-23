@@ -35,7 +35,7 @@ class Config
         }
         else
         {
-            $hn = hostname();
+            $hn = strtolower( hostname() );
             $path = ROOT_DIR . "/app/config/$hn/$file.php";
             if ( ! $hn || ! file_exists($path))
                 $path = ROOT_DIR . "/app/config/$file.php";

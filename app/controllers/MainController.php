@@ -28,7 +28,7 @@ class MainController extends Controller
      * Test REST-controller. Responds only to 'GET' HTTP verb. Can take arguments, but does not require them.
      */
 
-    function getTest($arg1=null, $arg2=null)
+    function getTest($arg1)
     {
         return View::make('home');  // Same as new View
     }

@@ -48,10 +48,6 @@ final class App
         foreach ($aliases as $key => $val)
             class_alias($val, $key);
 
-        $session = Config::get('app.session');
-        if ($session)
-            Session::start($session);
-
         // ActiveRecord set up if included.
         if (defined('PHP_ACTIVERECORD_VERSION_ID'))
         {
@@ -174,6 +170,9 @@ final class App
     {
         if($response instanceof Response)
         {
+            if (function_exists('http_response_code'))
+                http_response_code($response->status());
+
             foreach ($response->getHeaders() as $key => $val)
             {
                 if ($key == 'Content-Type')

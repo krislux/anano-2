@@ -11,15 +11,6 @@ function dd($data)
 }
 
 /**
- * Tiny helper for method chaining new objects in earlier PHP.
- */
-
-function with($obj)
-{
-    return $obj;
-}
-
-/**
  * Soft include. Ignores it if the file doesn't exist.
  */
 
@@ -64,7 +55,7 @@ function url($url)
     {
         if ($url[0] !== '/')
             $url = '/' . $url;
-        
+
         if (isset($_SERVER['REQUEST_SCHEME']))
         {
             $scheme = $_SERVER['REQUEST_SCHEME'];
@@ -75,7 +66,7 @@ function url($url)
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'])
                 $scheme = 'https';
         }
-        
+
         $url = $scheme . '://' . $_SERVER['HTTP_HOST'] . App::root() . $url;
     }
     return $url;
@@ -83,15 +74,13 @@ function url($url)
 
 /**
  * Return the hostname or computername of the current machine, used for automatic environments.
- * Note that we always use a lowercased version. This is to avoid hard to track bugs when
- * switching between filename case sensitive Unix environments and case insensitive Windows ones.
  */
 
 function hostname()
 {
     static $hostname;
     if ($hostname === null)
-        $hostname = strtolower( gethostname() ?: getenv('COMPUTERNAME') );
+        $hostname = gethostname() ?: getenv('COMPUTERNAME');
     return $hostname;
 }
 
@@ -117,4 +106,53 @@ function activeClass($url, $classname='active', $print_html=false)
         return $classname;
     }
     return '';
+}
+
+/**
+ * Create a random alphanumeric string. Good for password or token generation.
+ * @param  int  $length       Character-length of the generated string.
+ * @param  bool $punctuation  Include punctiation in string. Always URI-safe.
+ */
+
+function str_random($length, $punctuation = false)
+{
+    $output = '';
+
+    if ($punctuation)
+        $exp = '/[0-9A-Za-z\.\-_\~]/';
+    else
+        $exp = '/[0-9A-Za-z]/';
+
+    for ($i = 0; $i < $length; $i++)
+    {
+        do
+            $chr = chr(rand(33, 126));
+        while ( ! preg_match($exp, $chr));
+
+        $output .= $chr;
+    }
+
+    return $output;
+}
+
+/**
+ * Retrieve values from an array by dotted query, e.g ['person' => ['name' => 'Kris']]
+ * can be retrieved with array_get($array, 'person.name')
+ * @param array  $array    The array to pluck from.
+ * @param string $query    Dotted query of values to get.
+ * @param mixed  $default  Value returned if specified item is not found.
+ */
+function array_get(array $array, $query, $default = null)
+{
+    $query = explode('.', $query);
+
+    foreach ($query as $q)
+    {
+        if (isset($array[$q]))
+            $array = $array[$q];
+        else
+            return $default;
+    }
+
+    return $array;
 }

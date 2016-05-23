@@ -17,7 +17,7 @@ class Router
         if ($pos !== false)
             $args_str = substr($args_str, 0, $pos);
 
-        $args = array_pad( explode('/', $args_str) , 2, '');
+        $raw_args = array_pad( explode('/', $args_str) , 2, '');
 
         // Convert underscores and dashes to camelCase
         $args = array_map(function($arg) {
@@ -26,7 +26,7 @@ class Router
             for ($i = 1; $i < $parts_num; $i++)
                 $parts[$i] = ucfirst($parts[$i]);
             return implode('', $parts);
-        }, $args);
+        }, $raw_args);
 
         if ($args[0])
             $args[0] = ucfirst($args[0]);
@@ -46,8 +46,13 @@ class Router
             }
 
             $args[0] = '/';
+            $fish = 1;
         }
-
+        else
+        {
+            $raw_args = array_slice($raw_args, 1);
+        }
+        
         $routes = Config::get('routes');
 
         // Translate aliases
@@ -62,13 +67,13 @@ class Router
         $this->route = array(
             'class' => $args[0] . 'Controller',
             'method' => $args[1],
-            'args' => array_slice($args, 2)
+            'args' => array_slice($raw_args, 1)
         );
     }
 
     public function run()
     {
-        $response = null;
+        $response = false;
 
         if (is_subclass_of($this->route['class'], 'Controller'))
         {
@@ -104,7 +109,7 @@ class Router
             }
         }
 
-        if ($response === null)
+        if ($response === false)
         {
             Error::addDebugInfo('Route', $this->route);
             Error::addDebugInfo('URL', $_SERVER['REQUEST_URI']);

@@ -141,7 +141,7 @@ class Validator
     // String must not be empty.
     public function validateRequired($subject)
     {
-        return strlen($subject) > 0;
+        return !empty($subject);
     }
 
     // String must be shorter than this length.
@@ -190,6 +190,16 @@ class Validator
     public function validateHex($subject)
     {
         return preg_match('/^[0-9a-f]*$/', $subject);
+    }
+
+    // String must be valid JSON.
+    public function validateJson($subject)
+    {
+        if (empty($subject))
+            return true;
+        if (is_array($subject))
+            return true;
+        return json_decode($subject) !== null;
     }
 
     // Phone numbers, including whitespace, () and + signs accepted. Optional length is for pure digits,

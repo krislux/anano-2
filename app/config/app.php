@@ -58,11 +58,10 @@ return array(
     
     
     /**
-     * Bindings for the simple included IoC container.
+     * Bindings for App::make().
      */
     
     'binds' => array(
-        //'Router' => 'Anano\\Routing\\Router',
         'Router' => 'Anano\\Router',
         'Database' => 'Anano\\Database\\ORM\\Database',
         'QueryBuilder' => 'Anano\\Database\\ORM\\QueryBuilder',
