@@ -4,9 +4,18 @@ Anano 2 is a lightweight framework loosely inspired by Laravel 4, but intended t
 
 Anano includes a DBAL/ORM (as well as built-in support for ActiveRecord, the lightest full ORM I know of), migrations, simple IOC, dynamic templating system, extensible CLI interface, as well as everything set up for Codeception testing.
 
-**Note:** Anano was built because I needed to run many concurrent unique views on a less-than-optimal server, and Symfony and Laravel were simply too heavy. It's not nearly as well supported or thoroughly tested as better known frameworks. Do not use this for larger projects requiring long term support, unless you know exactly what you're doing.
+## Why?
 
----
+Anano was built because I needed to run many concurrent unique views on a less-than-optimal server, and Symfony and Laravel were simply too heavy. It's not nearly as well supported or thoroughly tested as better known frameworks. Do not use this for larger projects requiring long term support, unless you know exactly what you're doing.
+
+## Installation
+
+```bash
+git clone https://github.com/krislux/anano-2.git && cd anano-2
+composer install
+```
+
+Requires Composer for autoloading only. It has no third-party dependencies.
 
 ## License
 
