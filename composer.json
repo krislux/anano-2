@@ -1,7 +1,7 @@
 {
     "name": "amunium/anano",
-	"version": "2.0.10-dev",
-    "description": "MVC nano framework optimized for speed and light weight",
+	"version": "2.1.0",
+    "description": "MVC framework optimized for speed and light weight",
     "license": "MIT",
     "authors": [
         {

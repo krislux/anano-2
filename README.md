@@ -8,6 +8,25 @@ Anano includes a DBAL/ORM (as well as built-in support for ActiveRecord, the lig
 
 Anano was built because I needed to run many concurrent unique views on a less-than-optimal server, and Symfony and Laravel were simply too heavy. It's not nearly as well supported or thoroughly tested as better known frameworks. Do not use this for larger projects requiring long term support, unless you know exactly what you're doing.
 
+### Features
+
+- PSR-4 compliant autoloading, courtesy of Composer
+- PDO-based DBAL/ORM
+- Migrations
+- RESTful controllers
+- Dynamic templates using Laravel Blade-like syntax
+- Middleware filters, including CSRF protection
+- Input validator
+- CLI interface (type `php run` in console)
+- Lots of helper classes for sessions, requests, responses, passwords, etc. to make development fast and smooth.
+
+### Limitations
+
+Currently Anano only features automatic routing, i.e. GET /users/create binds to UsersController->getCreate()
+Something like FastRoute is probably easy enough to implement, but so far I haven't needed it myself.
+
+In general, speed and light weight have been the focus, so if it's not something almost every project needs to use, it's simply not in there.
+
 ## Installation
 
 ```bash
