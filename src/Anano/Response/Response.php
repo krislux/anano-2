@@ -98,7 +98,7 @@ class Response
 
     public static function json(array $data)
     {
-        $headers = array('Content-Type' => 'applicaton/json');
+        $headers = array('Content-Type' => 'application/json');
         return new self(json_encode($data), $headers);
     }
 

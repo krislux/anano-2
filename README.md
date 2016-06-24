@@ -22,7 +22,7 @@ Anano was built because I needed to run many concurrent unique views on a less-t
 
 ### Limitations
 
-Currently Anano only features automatic routing, i.e. GET /users/create binds to UsersController->getCreate()
+Currently Anano only features automatic routing, i.e. GET /users/create binds to UsersController->getCreate().  
 Something like FastRoute is probably easy enough to implement, but so far I haven't needed it myself.
 
 In general, speed and light weight have been the focus, so if it's not something almost every project needs to use, it's simply not in there.
