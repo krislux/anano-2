@@ -20,8 +20,11 @@ class Validator
      * @param  mixed  $subject  Either string or associative array of values ($_REQUEST goes neatly here).
      * @param  mixed  $rules    Either string or associative array of subject keys => rules.
      */
-    public function __construct($subject, $rules)
+    public function __construct($subject = null, $rules = null)
     {
+        if ( ! $subject || ! $rules)
+            return;
+        
         if (is_array($subject))
         {
             foreach ($rules as $rule_key => $rule_val)

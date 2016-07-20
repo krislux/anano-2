@@ -38,9 +38,16 @@ final class App
             @ini_set('display_errors', 1);
         }
 
-        // Stop information bleeding
-        header_remove('X-Powered-By');
         date_default_timezone_set(Config::get('app.timezone'));
+
+        // Set default headers as defined in app config
+        foreach (Config::get('app.headers', []) as $key => $val)
+        {
+            if ($val === null)
+                header_remove($key);
+            else
+                header($key . ': '. $val);
+        }
 
         self::$binds = Config::get('app.binds');
 

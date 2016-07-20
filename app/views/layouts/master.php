@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0" />
 {{-- All local file urls should be rooted. They will adjust automatically if the site is in a subdirectory --}}
-<link type="text/css" rel="stylesheet" href="/style/reset.css">
+<link type="text/css" rel="stylesheet" href="/public/css/style.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -24,19 +24,6 @@ $(document).ready(function() {
     });
 });
 </script>
-<style>
-
-body {
-    background-color: #FFF;
-}
-
-#content {
-    color: #666;
-    padding: 2em 3em;
-    font-family: sans-serif;
-}
-
-</style>
 </head>
 <body>
 

@@ -1,3 +1,9 @@
-.login-form {
-    margin-top: 50px;
+body {
+    background-color: #fff;
+}
+
+#content {
+    color: #666;
+    padding: 2em 3em;
+    font-family: sans-serif;
 }

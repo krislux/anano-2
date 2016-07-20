@@ -2,6 +2,9 @@
 
 namespace Anano\Http;
 
+use Exception;
+use Config;
+
 /**
  * Simple cURL-wrapper.
  */
@@ -13,12 +16,16 @@ class Curl
     public function __construct($user_agent = '')
     {
         if (!extension_loaded('curl'))
-            throw new \Exception('cURL not loaded.');
+            throw new Exception('cURL not loaded.');
 
         $this->curl = curl_init();
         $this->setopt(CURLOPT_USERAGENT, $user_agent);
         $this->setopt(CURLOPT_RETURNTRANSFER, true);
         $this->setopt(CURLINFO_HEADER_OUT, true);
+
+        $pemfile = Config::get('app.cainfo', ROOT_DIR . '/cacert.pem');
+        if (file_exists($pemfile))
+            $this->setopt(CURLOPT_CAINFO, $pemfile);
     }
 
     public function __destruct()
@@ -62,6 +69,16 @@ class Curl
         if ($opt)
             return curl_getinfo($this->curl, $opt);
         return curl_getinfo($this->curl);
+    }
+
+    public function error()
+    {
+        return curl_error($this->curl);
+    }
+
+    public function getInstance()
+    {
+        return $this->curl;
     }
 
     public function close()

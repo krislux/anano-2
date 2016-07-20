@@ -14,53 +14,64 @@ return array(
     
     /**
      * Toggle global debug mode on/off.
-     * 
+     *
      * When debugging is on, more error information is displayed, templates are generated every time regardless if they are changed,
      * etc. It is strongly recommended to turn this off in a production environment.
      */
-    
+
     'debug' => true,
-    
-    
+
+
     /**
      * Toggle displaying information about generation time, memory use, etc.
-     * 
+     *
      * Also requires debugging to be enabled. Note that it breaks standard HTML and may force some browsers into quirks mode.
      */
-    
+
     'profile' => true,
-    
-    
+
+
     /**
      * The name of the session cookie. Default will work fine, but you may want to set this to something related to your project.
      *
      * Set to null to disable sessions for the project. Bear in mind this will also disable csrf protection.
      */
-    
+
     'session' => 'anano_session',
-    
-    
+
+
     /**
      * Default timezone for date and time functions.
-     * 
+     *
      * http://php.net/manual/en/timezones.php
      **/
-    
+
     'timezone' => 'Europe/Copenhagen',
-    
-    
+
+
     /**
      * The start and end tags for template code. You may wish to change these if you include e.g.
      * AngularJs, which uses the same tags. These also affect template comments.
      */
-    
+
     'template-tags' => array('{{', '}}'),
-    
-    
+
+
+    /**
+     * Default headers. Set to null to remove. Can be overridden in individual Responses.
+     */
+
+    'headers' => array(
+        'X-Powered-By' => null,
+        'X-Frame-Options' => 'SAMEORIGIN',
+        'X-Content-Type-Options' => 'nosniff',
+    ),
+
+
     /**
      * Bindings for App::make().
      */
-    
+
     'binds' => array(
         'Router' => 'Anano\\Router',
         'Database' => 'Anano\\Database\\ORM\\Database',

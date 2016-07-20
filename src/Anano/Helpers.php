@@ -4,9 +4,10 @@
  * Shorthand for dumping data and halting execution. Useful for debugging.
  */
 
-function dd($data)
+function dd()
 {
-    var_dump($data);
+    foreach (func_get_args() as $data)
+        var_dump($data);
     exit;
 }
 
@@ -56,31 +57,43 @@ function url($url)
         if ($url[0] !== '/')
             $url = '/' . $url;
 
-        if (isset($_SERVER['REQUEST_SCHEME']))
-        {
-            $scheme = $_SERVER['REQUEST_SCHEME'];
-        }
-        else
-        {
-            $scheme = 'http';
-            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'])
-                $scheme = 'https';
-        }
-
+        $scheme = get_scheme();
         $url = $scheme . '://' . $_SERVER['HTTP_HOST'] . App::root() . $url;
     }
     return $url;
 }
 
 /**
+ * Get the currently used scheme/protocol. No ://
+ */
+
+function get_scheme()
+{
+    if (isset($_SERVER['REQUEST_SCHEME']))
+    {
+        $scheme = $_SERVER['REQUEST_SCHEME'];
+    }
+    else
+    {
+        $scheme = 'http';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'])
+            $scheme = 'https';
+    }
+
+    return $scheme;
+}
+
+/**
  * Return the hostname or computername of the current machine, used for automatic environments.
+ * Note that we always use a lowercased version. This is to avoid hard to track bugs when
+ * switching between filename case sensitive Unix environments and case insensitive Windows ones.
  */
 
 function hostname()
 {
     static $hostname;
     if ($hostname === null)
-        $hostname = gethostname() ?: getenv('COMPUTERNAME');
+        $hostname = strtolower( gethostname() ?: getenv('COMPUTERNAME') );
     return $hostname;
 }
 
