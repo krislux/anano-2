@@ -21,6 +21,7 @@ class Template
         $buffer = &$this->buffer;
 
         $tags = Config::get('app.template-tags');
+        $sets = array(); // Set variables
 
         // Replace rooted URLs with correctly rooted URLs, even when site is in subfolders.
         $buffer = preg_replace('/((href|src|action)=(\"|\'))\/(?!\/)([^\'\"]*)(\"|\')/', '$1<?php echo App::root(); ?>/$4$5', $buffer);
@@ -32,6 +33,11 @@ class Template
         $buffer = preg_replace('/^[\s]*\@(content|render|RenderBody)[\s]*$/m', '<?php echo $viewContent; ?>' . "\r\n", $buffer);
 
         $buffer = preg_replace('/^[\s]*\@(include|partial)[ \t]+([\w\.\/_-]+)[\s]*$/m', '<?php echo new View("$2", isset($data) ? $data : null); ?>' . "\r\n", $buffer);
+
+        $buffer = preg_replace_callback('/^[\s]*\@set[ \t]+\$?([\w\_]+)[ \t](.*)$/m', function($parts) use (&$sets) {
+            $sets[$parts[1]] = $parts[2];
+            return '';
+        }, $buffer);
 
         // Single-line executions with @
         $buffer = preg_replace_callback('/^[\s]*\@(.+)$/m', function($parts) {
@@ -49,6 +55,42 @@ class Template
             return '<?php echo '. $part .'; ?>';
         }, $buffer);
 
+        if ( ! empty($sets))
+        {
+            $temp = "\n<?php\n";
+            foreach ($sets as $key => $var)
+            {
+                $set = $this->parseSetVariable($key, $var);
+                $temp .= "self::share('$key', ". $set .");\n";
+            }
+            $temp .= "?>";
+
+            $buffer .= $temp;
+        }
+
         return $buffer;
+    }
+
+    /**
+     * Parses @set variables from views to actual PHP variables.
+     * @set variables can be numbers, true/false/null or strings with or without quotes. Arrays and objects not supported.
+     * $-sign before variables is optional. A few examples:
+     *     @set variableOne true
+     *     @set $test "This is a test string"
+     * These are set at the very top of the parsed template, so you can set variables in a master file from a partial, etc.
+     */
+
+    private function parseSetVariable($name, $value)
+    {
+        $value = trim($value);
+        if (is_numeric($value))
+            $output = floatval($value);
+        elseif (in_array(strtolower($value), array('true', 'false', 'null')))
+            $output = $value;
+        elseif (preg_match('/[\'\"]{1}(.*)[\'\"]{1}/', $value, $matches))
+            $output = '"'. addslashes($matches[1]) .'"';
+        else
+            $output = '"'. addslashes($value) .'"';
+        return $output;
     }
 }

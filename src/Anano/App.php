@@ -132,7 +132,7 @@ final class App
 
     /**
      * Benchmark function for testing and optimisation purposes.
-     * Pass in a function, get how many milliseconds it takes to run it $iterations times.
+     * Pass in a function, get an object of how long it took to run in different formats
      */
 
     public static function benchmark($lambda, $iterations=1000)
@@ -144,7 +144,11 @@ final class App
 
         $t2 = microtime(true);
 
-        return ($t2 - $t1) * 1000;
+        return array(
+            'ms' => ($t2 - $t1) * 1000 / $iterations,
+            's' => ($t2 - $t1) / $iterations,
+            'total' => ($t2 - $t1)
+        );
     }
 
     public static function current($rooted_relative=true)

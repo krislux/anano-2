@@ -1,15 +1,12 @@
 /app/storage
 /wiki
 /vendor
-
-### KomodoEdit ###
-*.komodoproject
-.komodotools
+/node_modules
 
 ### Vim ###
 *.swp
 
-### Mac crap ###
+### Mac ###
 .DS_Store
 
 tests/_output/*
