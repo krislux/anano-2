@@ -85,6 +85,8 @@ final class App
         static $root;
         if ($root === null)
             $root = rtrim( dirname($_SERVER['PHP_SELF']), '\\/' );
+        if (Config::get('app.absolute-urls', false))
+            return get_scheme() . '://' . $_SERVER['HTTP_HOST'] . $root;
         return $root;
     }
 

@@ -55,6 +55,13 @@ return array(
      */
 
     'template-tags' => array('{{', '}}'),
+    
+    
+    /**
+     * App::root(), and by extension templates, uses absolute URL instead of corrected relative.
+     */
+
+    'absolute-urls' => true,
 
 
     /**
