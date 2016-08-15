@@ -22,9 +22,9 @@ class Validator
      */
     public function __construct($subject = null, $rules = null)
     {
-        if ( ! $subject || ! $rules)
+        if ( ! $rules)
             return;
-        
+
         if (is_array($subject))
         {
             foreach ($rules as $rule_key => $rule_val)
@@ -64,7 +64,12 @@ class Validator
         foreach ($rules as $rule => $value)
         {
             $method = 'validate' . ucfirst($rule);
-            if (method_exists($this, $method))
+            if (is_callable($value))
+            {
+                if ( ! $value($subject))
+                    $errors[] = 'custom';
+            }
+            else if (method_exists($this, $method))
             {
                 if ( ! $this->$method($subject, $value) )
                 {
@@ -92,6 +97,8 @@ class Validator
      */
     private function parseRules($rules)
     {
+        if (is_callable($rules))
+            return [$rules];
         $output = [];
         $rules = explode('|', $rules);
         foreach ($rules as $rule)
@@ -145,6 +152,20 @@ class Validator
     public function validateRequired($subject)
     {
         return !empty($subject);
+    }
+
+    // String must be equal to the value, case insensitive
+    public function validateIs($subject, $value)
+    {
+        if (function_exists('mb_strtolower'))
+            return mb_strtolower($subject) == mb_strtolower($value);
+        return strtolower($subject) == strtolower($value);
+    }
+
+    // String must match this simple regex (several characters unsupported, such as | because of the nature of the string)
+    public function validateMatch($subject, $value)
+    {
+        return preg_match($value, $subject);
     }
 
     // String must be shorter than this length.

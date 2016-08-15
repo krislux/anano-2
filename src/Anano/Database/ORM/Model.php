@@ -15,12 +15,12 @@ abstract class Model extends QueryBuilder
     private $original_fields;
 
 
-    public function __construct($id=null)
+    public function __construct($id = null)
     {
         if (!$this->table_name)
             $this->table_name = strtolower(get_class($this)) . 's';
 
-        if ($id)
+        if ($id !== null)
         {
             $this->load($id);
         }
@@ -40,7 +40,7 @@ abstract class Model extends QueryBuilder
     public function describe()
     {
         static $table;
-        if (!$table)
+        if ( ! $table)
         {
             $table = parent::describe();
         }
@@ -69,9 +69,11 @@ abstract class Model extends QueryBuilder
             $this->fields = $result[0];
             $this->original_fields = $this->fields;
         }
+        else
+            return false;
     }
 
-    public static function make($fields=array())
+    public static function make($fields = array())
     {
         $model = new static;
         $model->fields = $fields;
@@ -119,7 +121,7 @@ abstract class Model extends QueryBuilder
 
     public function toArray()
     {
-        if (!is_array($this->fields)) return null;
+        if ( ! is_array($this->fields)) return null;
 
         $ar = array();
         foreach ($this->fields as $key => $val)
@@ -132,7 +134,7 @@ abstract class Model extends QueryBuilder
      * This can be overridden with the $force argument.
      */
 
-    public function save($force=false)
+    public function save($force = false)
     {
         // If no id set, insert
         if (empty($this->fields[$this->id_column]))
@@ -145,7 +147,7 @@ abstract class Model extends QueryBuilder
                 $this->fields[$this->id_column] = (int)$this->lastInsertId();
             return $rv;
         }
-        
+
         // If id set, update
         $changed_fields = array();
 
@@ -158,7 +160,7 @@ abstract class Model extends QueryBuilder
         if ($force)
             $changed_fields = $this->fields;
 
-        if (!empty($changed_fields))
+        if ( ! empty($changed_fields))
         {
             if ($this->timestamps && array_key_exists('updated_at', $this->fields))
                 $changed_fields['updated_at'] = date("Y-m-d H:i:s");
@@ -178,11 +180,16 @@ abstract class Model extends QueryBuilder
         return $this->where($this->id_column, '=', $this->fields[$this->id_column])->update(array('updated_at' => date('Y-m-d H:i:s')));
     }
 
-    public function delete($hard=false)
+    public function delete($hard = false)
     {
         if ($this->soft_delete !== true || $hard)
             return $this->where($this->id_column, '=', $this->fields[$this->id_column])->destroy();
         else
             return $this->where($this->id_column, '=', $this->fields[$this->id_column])->update(array('deleted_at' => date('Y-m-d H:i:s')));
+    }
+
+    public function truncate()
+    {
+        return parent::truncate();
     }
 }
