@@ -58,7 +58,7 @@ function url($url)
             $url = '/' . $url;
 
         $scheme = get_scheme();
-        $url = $scheme . '://' . $_SERVER['HTTP_HOST'] . App::root() . $url;
+        $url = $scheme . '://' . $_SERVER['HTTP_HOST'] . App::root(false) . $url;
     }
     return $url;
 }
