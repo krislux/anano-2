@@ -78,14 +78,15 @@ final class App
 
     /**
      * Get the root path for URLs, not local file loading. Use the ROOT_DIR constant for that.
+     * @param  bool  $absolute  True or false for absolute/relative URL. Null/omit for detect from config.
      */
 
-    public static function root()
+    public static function root($absolute = null)
     {
         static $root;
         if ($root === null)
             $root = rtrim( dirname($_SERVER['PHP_SELF']), '\\/' );
-        if (Config::get('app.absolute-urls', false))
+        if ($absolute !== false && ($absolute === true || Config::get('app.absolute-urls', false) ))
             return get_scheme() . '://' . $_SERVER['HTTP_HOST'] . $root;
         return $root;
     }
