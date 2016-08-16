@@ -124,6 +124,21 @@ class MarkupParser
     }
 
     /**
+     * Return default translators for when no others supplied
+     */
+    public function getDefaultTranslators()
+    {
+        return [
+            '/^#\s?([^\#]+)$/' => '<h1>$1</h1>',
+            '/^##\s?([^\#]+)$/' => '<h2>$1</h2>',
+            '/^###\s?([^\#]+)$/' => '<h3>$1</h3>',
+            '/\[(.+?)\]\(([^\s]+)\)/' => '<a href="$2">$1</a>',
+            '/(?<!\\\)\*\*(.+?)(?<!\\\)\*\*/' => '<strong>$1</strong>',
+            '/(?<!\\\)\*(.+?)(?<!\\\)\*/' => '<em>$1</em>',
+        ];
+    }
+
+    /**
      * Perform translations
      */
     private function translate($str, array $translators)
@@ -133,18 +148,5 @@ class MarkupParser
             $str = preg_replace($pattern, $replace, $str);
         }
         return $str;
-    }
-
-    /**
-     * Return default translators for when no others supplied
-     */
-    private function getDefaultTranslators()
-    {
-        return [
-            '/^#\s?([^\#]+)$/' => '<h1>$1</h1>',
-            '/^##\s?([^\#]+)$/' => '<h2>$1</h2>',
-            '/^###\s?([^\#]+)$/' => '<h3>$1</h3>',
-            '/\[(.+)\]\(([^\s]+)\)/' => '<a href="$2">$1</a>',
-        ];
     }
 }

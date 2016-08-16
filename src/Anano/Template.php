@@ -48,7 +48,7 @@ class Template
         $buffer = preg_replace('/'. $tags[0] .'--.*?--'. $tags[1] .'[\r\n\f]*/s', '', $buffer);
 
         // MarkupParser parses a simple Markdown-style syntax into HTML.
-        $buffer = preg_replace_callback('/'. $tags[0] .'#(.*?)'. $tags[1] .'/s', function($parts) {
+        $buffer = preg_replace_callback('/'. $tags[0] .'#(.*?)#'. $tags[1] .'/s', function($parts) {
             $part = trim($parts[1], " \t;");
             return \Anano\Html\MarkupParser::make(htmlspecialchars($part))->paragraphs();
         }, $buffer);
