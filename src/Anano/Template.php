@@ -50,7 +50,7 @@ class Template
         // MarkupParser parses a simple Markdown-style syntax into HTML.
         $buffer = preg_replace_callback('/'. $tags[0] .'#(.*?)#'. $tags[1] .'/s', function($parts) {
             $part = trim($parts[1], " \t;");
-            return \Anano\Html\MarkupParser::make(htmlspecialchars($part))->paragraphs();
+            return \Anano\Html\MarkupParser::make($part)->paragraphs();
         }, $buffer);
 
         // Echo code
