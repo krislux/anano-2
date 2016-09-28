@@ -147,24 +147,27 @@ class QueryBuilder extends \Anano\Database\Database
             $parts[] = 'SET ' . implode(', ', $temp);
         }
 
-        $temp = array();
-        foreach ($this->query['where'] as $where)
+        if ( ! empty($this->query['where']))
         {
-            if ($where[2] === null)
+            $temp = array();
+            foreach ($this->query['where'] as $where)
             {
-                $temp[] = self::tick_words($where[0]) . ' IS NULL';
+                if ($where[2] === null)
+                {
+                    $temp[] = self::tick_words($where[0]) . ' IS NULL';
+                }
+                elseif ($where[2] === false)
+                {
+                    $temp[] = self::tick_words($where[0]) . $where[1];
+                }
+                else
+                {
+                    $temp[] = self::tick_words($where[0]) . $where[1] . '?';
+                    $placeholders[] = $where[2];
+                }
             }
-            elseif ($where[2] === false)
-            {
-                $temp[] = self::tick_words($where[0]) . $where[1];
-            }
-            else
-            {
-                $temp[] = self::tick_words($where[0]) . $where[1] . '?';
-                $placeholders[] = $where[2];
-            }
+            $parts[] = 'WHERE ' . implode(' AND ', $temp);
         }
-        $parts[] = 'WHERE ' . implode(' AND ', $temp);
 
         if ( ! empty($this->query['orWhere']))
         {
@@ -389,7 +392,7 @@ class QueryBuilder extends \Anano\Database\Database
         return $ar;
     }
 
-    private function clearQuery()
+    public function clearQuery()
     {
         $this->query = array();
     }
