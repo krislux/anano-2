@@ -9,6 +9,12 @@ class Template
     public function __construct($buffer)
     {
         $this->buffer = $buffer;
+
+        $this->keywords = [
+            'if',     'else',     'elseif',   'endif',
+            'for',    'endfor',   'foreach',  'endforeach',
+            'while',  'endwhile',
+        ];
     }
 
     /**
@@ -41,7 +47,13 @@ class Template
 
         // Single-line executions with @
         $buffer = preg_replace_callback('/^[\s]*\@(.+)$/m', function($parts) {
-            return '<?php '. trim($parts[1], " \t\r\n;") .' ?>';
+            if (preg_match('/[a-z]+/i', $parts[1], $match))
+            {
+                $match = current($match);
+                if (function_exists($match) || in_array($match, $this->keywords))
+                    return '<?php '. trim($parts[1], " \t\r\n;") .' ?>';
+            }
+            return $parts[0];
         }, $buffer);
 
         // Comments
