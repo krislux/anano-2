@@ -46,13 +46,12 @@ class Router
             }
 
             $args[0] = '/';
-            $fish = 1;
         }
         else
         {
             $raw_args = array_slice($raw_args, 1);
         }
-        
+
         $routes = Config::get('routes');
 
         // Translate aliases
