@@ -79,12 +79,18 @@ class Response
         return $this->status;
     }
 
+    public function &header($key, $val = null)
+    {
+        $this->headers[$key] = $val;
+        return $this;
+    }
+
 
     /**
      * Types
      */
 
-    public static function raw($data)
+    public static function raw($data = null)
     {
         return new self($data);
     }

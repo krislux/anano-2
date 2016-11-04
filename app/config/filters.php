@@ -28,6 +28,25 @@ return array(
     
     
     /**
+     * Basic auth filter. Pass in desired username/password as an array as the third parameter of Controller::filter()
+     * or modify this filter as you'd like, e.g. hardcoding credentials here, or reading from a config file.
+     */
+
+    'auth-basic' => function($creds) {
+        if ( ! isset($_SERVER['PHP_AUTH_USER']) ||
+             ! isset($_SERVER['PHP_AUTH_PW']) ||
+            strtolower($_SERVER['PHP_AUTH_USER']) !== $creds['username'] ||
+            $_SERVER['PHP_AUTH_PW']               !== $creds['password'] )
+        {
+            return Response::raw()
+                ->header('WWW-Authenticate', 'Basic realm="Anano Realm"')
+                ->status(401);
+        }
+        return true;
+    },
+    
+    
+    /**
      * IP whitelist filter. For any real use, you may wish to create a custom config file for the list.
      */
     
