@@ -34,6 +34,8 @@ git clone https://github.com/krislux/anano-2.git && cd anano-2
 composer install
 ```
 
+Particularly in Unix environments, you will probably want to run `sh install` as well to set up directory rights for you.
+
 Requires Composer for autoloading only. It has no third-party dependencies.
 
 ## License
