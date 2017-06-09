@@ -5,32 +5,12 @@ define('ROOT_DIR', __DIR__);
 define('STORAGE_DIR', __DIR__ . '/app/storage');
 
 require __DIR__ . '/vendor/autoload.php';
+$config = require __DIR__ . '/app/config/console.php';
 
-$app = Anano\App::init();
+use Anano\Console\Router;
+use Anano\Console\Arguments;
 
-if (count($argv) > 1)
-{
-    new Anano\Console( array_slice($argv, 1) );
-}
-else
-{
-    echo <<<HEREDOC
-======================================================================
-Anano command line interface
-
-Type run <command>
-----------------------------------------------------------------------
-Available commands:
-    migrate:up
-    migrate:down
-    migrate:reload
-    migrate:make <name>
-    
-    command:make <name>
-    hash <password>
-    clearcache
-    hostname
-======================================================================
-
-HEREDOC;
-}
+$router = new Router( new Arguments($argv), $config );
+$res = $router->dispatch();
+echo $res->getMessage();
+exit($res->getCode());
