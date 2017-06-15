@@ -10,6 +10,7 @@ $config = require __DIR__ . '/app/config/console.php';
 use Anano\Console\Router;
 use Anano\Console\Arguments;
 
+$app = Anano\App::init();
 $router = new Router( new Arguments($argv), $config );
 $res = $router->dispatch();
 echo $res->getMessage();
