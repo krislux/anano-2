@@ -7,6 +7,10 @@ use Anano\Database\Migrations\MigrationInterface;
 
 class MigrateCommand extends Command
 {
+    /**
+     * Run the migrations, creating the tables.
+     * You can pass a table name to run only that migration.
+     */
     public function up($table = null)
     {
         $migrations = $this->getMigrations();
@@ -22,6 +26,10 @@ class MigrateCommand extends Command
         return "Done.";
     }
     
+    /**
+     * Reverse the migrations, dropping the tables.
+     * You can pass a table name to reverse only that migration.
+     */
     public function down($table = null)
     {
         $migrations = $this->getMigrations();
@@ -37,6 +45,10 @@ class MigrateCommand extends Command
         return "Done.";
     }
     
+    /**
+     * Reload the migrations, dropping and remaking the tables.
+     * You can pass a table name to reload only that migration.
+     */
     public function reload($table = null)
     {
         $migrations = $this->getMigrations();
@@ -56,6 +68,11 @@ class MigrateCommand extends Command
         return "Done.";
     }
     
+    /**
+     * Create a migration file for the given table name.
+     *      --dir  Optional folder to place the file in.
+     *             Otherwise the first item of `migration_dirs` will be used. 
+     */
     public function make($table)
     {
         if ( ! preg_match('/^[a-zA-Z_]+[\w]*$/', $table)) {
@@ -68,9 +85,13 @@ class MigrateCommand extends Command
         ]);
 
         $dirs = $this->getConfig('migration_dirs');
-        file_put_contents(rtrim($dirs[0], '/') . '/create_' . $table . '.php', $buffer);
-        
-        return "Done.";
+        $dir = $this->getOption('dir', $dirs[0]);
+        $filename = 'create_' . $table . '.php';
+
+        if (file_put_contents(rtrim($dir, '/')  .'/'. $filename, $buffer)) {
+            return sprintf('Migration `%s` created in %s', $filename, $dir);
+        }
+        return "An error occured. Make sure you have write permissions for `$dir`";
     }
     
     private function getMigrations()

@@ -48,6 +48,13 @@ class Table
         return $column;
     }
 
+    public function &bigInteger($name, $size=null)
+    {
+        $column = new Column($name, 'bigint', $size);
+        $this->columns[] = $column;
+        return $column;
+    }
+
     public function &string($name, $size=255)
     {
         $column = new Column($name, 'varchar', $size);
