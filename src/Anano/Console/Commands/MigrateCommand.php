@@ -91,7 +91,7 @@ class MigrateCommand extends Command
         if (file_put_contents(rtrim($dir, '/')  .'/'. $filename, $buffer)) {
             return sprintf('Migration `%s` created in %s', $filename, $dir);
         }
-        return "An error occured. Make sure you have write permissions for `$dir`";
+        return "An error occurred. Make sure you have write permissions for `$dir`";
     }
     
     private function getMigrations()
