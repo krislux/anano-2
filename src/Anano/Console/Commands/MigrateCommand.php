@@ -1,16 +1,14 @@
-<?php
+<?php namespace Anano\Console\Commands;
 
-namespace Anano\Console;
+use ErrorException;
+use Anano\Console\Command;
+use Anano\Console\Template;
+use Anano\Database\Migrations\MigrationInterface;
 
-use \Anano\Database\Migrations\MigrationInterface;
-
-class Migrate
+class MigrateCommand extends Command
 {
-    const DIR = 'app/database/migrations/';
-    
-    public function up($args)
+    public function up($table = null)
     {
-        $table = count($args) ? $args[0] : null;
         $migrations = $this->getMigrations();
         
         foreach ($migrations as $migration)
@@ -19,14 +17,13 @@ class Migrate
                 continue;
             
             $migration->up();
-            echo get_class($migration) . " up.\r\n";
+            echo get_class($migration) . " up." . PHP_EOL;
         }
         return "Done.";
     }
     
-    public function down($args)
+    public function down($table = null)
     {
-        $table = count($args) ? $args[0] : null;
         $migrations = $this->getMigrations();
         
         foreach ($migrations as $migration)
@@ -35,14 +32,13 @@ class Migrate
                 continue;
             
             $migration->down();
-            echo get_class($migration) . " down.\r\n";
+            echo get_class($migration) . " down." . PHP_EOL;
         }
         return "Done.";
     }
     
-    public function reload($args)
+    public function reload($table = null)
     {
-        $table = count($args) ? $args[0] : null;
         $migrations = $this->getMigrations();
         
         foreach ($migrations as $migration)
@@ -52,36 +48,43 @@ class Migrate
             
             $classname = get_class($migration);
             $migration->down();
-            echo get_class($migration) . " down.\r\n";
+            echo get_class($migration) . " down." . PHP_EOL;
             
             $migration->up();
-            echo get_class($migration) . " up.\r\n";
+            echo get_class($migration) . " up." . PHP_EOL;
         }
         return "Done.";
     }
     
-    public function make($args)
+    public function make($table)
     {
-        if (count($args) >= 1)
-        {
-            $table = strtolower($args[0]);
-            $buffer = file_get_contents(__DIR__ . '/Templates/migrate_create.txt');
-            $buffer = str_replace('%CCTABLE%', ucfirst(snake_to_camel($table)), $buffer);
-            $buffer = str_replace('%LCTABLE%', $table, $buffer);
-            
-            file_put_contents(self::DIR . 'create_' . $table . '.php', $buffer);
-            
-            return "Done.";
+        if ( ! preg_match('/^[a-zA-Z_]+[\w]*$/', $table)) {
+            throw new ErrorException("Invalid table name `$table`. Name must conform to standard variable naming requirements.");
         }
-        else
-            return "Incorrect format. Use migrate:make <table>.";
+        
+        $buffer = new Template('migrate_create', [
+            'name' => ucfirst(snake_to_camel($table)),
+            'lname' => $table
+        ]);
+
+        $dirs = $this->getConfig('migration_dirs');
+        file_put_contents(rtrim($dirs[0], '/') . '/create_' . $table . '.php', $buffer);
+        
+        return "Done.";
     }
     
     private function getMigrations()
     {
         $output = array();
+
+        $files = [];
+        foreach ($this->getConfig('migration_dirs') as $dir) {
+            foreach (glob(rtrim($dir, '/') . '/*.php') as $file) {
+                $files[] = $file;
+            }
+        }
         
-        foreach (glob(self::DIR . '*.php') as $file)
+        foreach ($files as $file)
         {
             require $file;
             
@@ -97,7 +100,7 @@ class Migrate
             
             if ($class instanceof MigrationInterface)
             {
-                if (!isset($class->disabled) || !$class->disabled)
+                if ( ! isset($class->disabled) || ! $class->disabled)
                 {
                     $output[] = $class;
                 }

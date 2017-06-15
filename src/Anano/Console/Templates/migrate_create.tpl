@@ -5,9 +5,9 @@ use Anano\Database\Migrations\Table;
 use Anano\Database\Migrations\Serializers\MySql;
 use Anano\Database\Database;
 
-class Create%CCTABLE% implements MigrationInterface
+class Create{name} implements MigrationInterface
 {
-    public $table = '%LCTABLE%';
+    public $table = '{lname}';
     public $disabled = false;
     
     public function up()
