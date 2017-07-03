@@ -282,31 +282,17 @@ class QueryBuilder extends \Anano\Database\Database
         );
     }
 
-    public function result()
+    public function get($as_array = false)
     {
         $build = $this->buildSelect();
         $this->clearQuery();
-        return $this->paramQuery(
+        $set = $this->paramQuery(
             $build['query'],
             $build['placeholders']
         );
-    }
-
-    public function get()
-    {
-        $ar = array();
-        foreach ($this->result() as $result)
-        {
-            $ar[] = static::make($result);
+        if ( ! $as_array) {
+            $set->setModel(get_class($this));
         }
-        return $ar;
-    }
-
-    public function first()
-    {
-        $set = $this->get();
-        if (is_array($set))
-            return current($set);
         return $set;
     }
 

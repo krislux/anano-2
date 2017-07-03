@@ -5,6 +5,7 @@ namespace Anano\Database;
 use Anano\Config;
 use PDO;
 use PDOException;
+use Anano\Database\ORM\Resultset;
 
 class Database implements DatabaseInterface
 {
@@ -139,16 +140,7 @@ class Database implements DatabaseInterface
                 }
                 else
                 {
-                    // ... otherwise return result
-                    try
-                    {
-                        $rv = $stmt->fetchAll($fetch);
-                    }
-                    catch (PDOException $e)
-                    {
-                        if ($e->errorInfo[1] == 2053)   // no result set, likely because of non-select query.
-                            $rv = true;
-                    }
+                    return new Resultset($stmt, $fetch);
                 }
             }
 

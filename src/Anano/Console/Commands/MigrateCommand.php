@@ -70,8 +70,12 @@ class MigrateCommand extends Command
     
     /**
      * Create a migration file for the given table name.
-     *      --dir  Optional folder to place the file in.
-     *             Otherwise the first item of `migration_dirs` will be used. 
+     *     --dir         Optional folder to place the file in. Otherwise
+     *                   the first item of `migration_dirs` will be used.
+     * -m  --model       Create model as well, by default in app/models.
+     *     --model-dir   Optionally set directory to save model in.
+     *     --model-name  By default the model name will be the table name
+     *                   minus any ending 's'. This lets you override that.
      */
     public function make($table)
     {
@@ -87,11 +91,48 @@ class MigrateCommand extends Command
         $dirs = $this->getConfig('migration_dirs');
         $dir = $this->getOption('dir', $dirs[0]);
         $filename = 'create_' . $table . '.php';
+        $path = rtrim($dir, '\/')  .'/'. $filename;
 
-        if (file_put_contents(rtrim($dir, '/')  .'/'. $filename, $buffer)) {
-            return sprintf('Migration `%s` created in %s', $filename, $dir);
+        if (file_exists($path)) {
+            if ( ! $this->confirm("The migration you are trying to create already exists. Overwrite?")) {
+                return "Cancelled.";
+            }
         }
-        return "An error occurred. Make sure you have write permissions for `$dir`";
+        if (file_put_contents($path, $buffer)) {
+            printf('Migration `%s` created in %s' . PHP_EOL, $filename, $dir);
+        }
+        else {
+            echo "An error occurred. Make sure you have write permissions for `$dir`" . PHP_EOL;
+        }
+
+        // Create model
+        if ($this->hasOption('m', 'model')) {
+            $dir = $this->getOption('model-dir', ROOT_DIR . '/app/models');
+            $name = $this->getOption('model-name', rtrim($table, 's'));
+            $name = ucfirst($name);
+            $path = rtrim($dir, '\/')  .'/'. $name . '.php';
+
+            $buffer = new Template('model_native', [
+                'modelname' => $name,
+                'tablename' => $table
+            ]);
+
+            if (file_exists($path)) {
+                if ( ! $this->confirm("The model you are trying to create already exists. Overwrite?")) {
+                    return "Cancelled.";
+                }
+            }
+            if (file_put_contents($path, $buffer)) {
+                printf('Model `%s` created in %s' . PHP_EOL, $name, $dir);
+            }
+            else {
+                echo "An error occurred. Make sure you have write permissions for `$dir`" . PHP_EOL;
+            }
+            
+            // Todo: Do something similar to
+            // `composer dump-auto`
+            // - but remember, you can't trust the composer filename. Check doc for better way.
+        }
     }
     
     private function getMigrations()
@@ -100,7 +141,7 @@ class MigrateCommand extends Command
 
         $files = [];
         foreach ($this->getConfig('migration_dirs') as $dir) {
-            foreach (glob(rtrim($dir, '/') . '/*.php') as $file) {
+            foreach (glob(rtrim($dir, '\/') . '/*.php') as $file) {
                 $files[] = $file;
             }
         }

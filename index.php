@@ -5,7 +5,7 @@
  *
  * @package Anano
  * @author  Kris Lux <email@amunium.dk>
- * @version 2.0
+ * @version 2.5
  */
 
 define('ROOT_DIR', __DIR__);
