@@ -21,5 +21,10 @@
             "app/controllers",
             "app/models"
         ]
+    },
+    "scripts": {
+        "pre-update-cmd": [
+            "sh ./install"
+        ]
     }
 }
