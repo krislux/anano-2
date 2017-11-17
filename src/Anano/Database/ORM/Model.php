@@ -64,10 +64,10 @@ abstract class Model extends QueryBuilder
         $this->fields = null;
         $this->original_fields = null;
 
-        if ($result = $this->where($this->id_column, '=', $id)->result())
+        if ($result = $this->where($this->id_column, '=', $id)->get()->current()->toArray())
         {
-            $this->fields = $result[0];
-            $this->original_fields = $this->fields;
+            $this->fields = $result;
+            $this->original_fields = $result;
         }
         else
             return false;
