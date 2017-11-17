@@ -15,7 +15,7 @@ return array(
             'host'     => 'localhost',
             'username' => 'root',
             'password' => '',
-            'database' => 'test',
+            'dbname'   => 'test',
             'charset'  => 'utf8',
             'persistent' => false
         )

@@ -75,7 +75,8 @@ class Resultset implements Iterator
 
     public function valid()
     {
-        return $this->position < $this->statement->rowCount();
+        $rows =  $this->statement->rowCount();
+        return $rows > 0 && $this->position < $rows;
     }
 
     public function rewind()

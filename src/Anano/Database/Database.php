@@ -9,14 +9,14 @@ use Anano\Database\ORM\Resultset;
 
 class Database implements DatabaseInterface
 {
+    public $conn_name;
     protected $db;
-    private $connName;
 
     private static $query_log = array();
 
-    public function __construct($connName=null)
+    public function __construct($conn_name=null)
     {
-        $this->connName = $connName;
+        $this->conn_name = $conn_name;
     }
 
     /**
@@ -25,9 +25,9 @@ class Database implements DatabaseInterface
 
     public function init()
     {
-        if (!$this->connName) $this->connName = Config::get('database.default');
+        if (!$this->conn_name) $this->conn_name = Config::get('database.default');
 
-        extract(Config::get('database.connections.'. $this->connName));
+        extract(Config::get('database.connections.'. $this->conn_name));
 
         $connstr = "$driver:host=$host;dbname=$database;charset=$charset";
         try
