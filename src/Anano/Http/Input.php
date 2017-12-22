@@ -4,28 +4,35 @@ namespace Anano\Http;
 
 abstract class Input
 {
+    public static function all()
+    {
+        return self::getData();
+    }
+
     /**
      * Get one or more values from the current request by keys.
      * @return string for single key, array for array of keys, or mixed if default is used.
      */
     public static function get($field, $default = '')
     {
-        if (is_array($field))
-        {
+        $data = self::getData();
+
+        if (is_array($field)) {
             $output = [];
-            foreach ($field as $f)
-            {
-                if (isset($_REQUEST[$f]))
-                    $output[] = $_REQUEST[$f];
-                else
+            foreach ($field as $f) {
+                if (isset($data[$f])) {
+                    $output[] = $data[$f];
+                }
+                else {
                     $output[] = $default;
+                }
             }
             return $output;
         }
-        else
-        {
-            if (isset($_REQUEST[$field]))
-                return $_REQUEST[$field];
+        else {
+            if (isset($data[$field])) {
+                return $data[$field];
+            } 
         }
         return $default;
     }
@@ -38,16 +45,17 @@ abstract class Input
      */
     public static function prefer($fieldlist, $default = '')
     {
-        if ( ! is_array($fieldlist))
-        {
+        $data = self::getData();
+
+        if ( ! is_array($fieldlist)) {
             $fieldlist = func_get_args();
             $default = null;
         }
 
-        foreach ($fieldlist as $f)
-        {
-            if (isset($_REQUEST[$f]))
-                return $_REQUEST[$f];
+        foreach ($fieldlist as $f) {
+            if (isset($data[$f])) {
+                return $data[$f];
+            }
         }
 
         return $default;
@@ -59,7 +67,8 @@ abstract class Input
      */
     public static function has($field)
     {
-        return isset($_REQUEST[$field]);
+        $data = self::getData();
+        return isset($data[$field]);
     }
 
     /**
@@ -69,5 +78,41 @@ abstract class Input
     public static function method()
     {
         return $_SERVER['REQUEST_METHOD'];
+    }
+
+    /**
+     * Get any format of input data as an array.
+     */
+    private static function getData()
+    {
+        static $data = null;
+
+        // Only parse once
+        if ($data === null) {
+            $content_type = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null;
+            if ($pos = strpos($content_type, ';')) {
+                $content_type = substr($content_type, 0, $pos);
+            }
+
+            switch ($content_type) {
+                case 'multipart/form-data':
+                default:
+                    $data = $_REQUEST;
+                    break;
+                case 'application/x-www-form-urlencoded':
+                    parse_str(file_get_contents('php://input'), $data);
+                    break;
+                case 'application/json':
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    break;
+                case 'application/xml':
+                case 'text/xml':
+                    $data = (array)simplexml_load_string(file_get_contents('php://input'));
+                    $data = array_map('trim', $data);
+                    break;
+            }
+        }
+
+        return $data;
     }
 }
